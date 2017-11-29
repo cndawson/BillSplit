@@ -21,7 +21,7 @@ form {
 .centered {
 	position: absolute;
 	top: 30%;
-	left: 45%;
+	left: 47%;
 	margin-top: -50px;
 	margin-left: -100px;
 	padding-bottom: 10px;
@@ -29,6 +29,7 @@ form {
 	background: rgba(0,0,0,.50);
     backdrop-filter:blur(60px);
     border-radius: 25px;
+    color: white;
 }
 
 .fields {
@@ -47,6 +48,8 @@ form {
 
 h1{
 	text-align:center;
+	font-family: "Arial", Sans-serif;
+	font-size: 40px;
 }
 </style>
 </head>
