@@ -1,0 +1,6 @@
+create database BillSplit;
+use database BillSplit;
+
+create table users (id int(6) unsigned AUTO_INCREMENT, username varchar(64), hash varchar(255), payed double(20,2), owed double(20,2), groupName varchar(64), PRIMARY KEY (id));
+
+create table payments (id int(6) unsigned AUTO_INCREMENT, username varchar(64), groupName varchar(64), description varchar(140), amount double(20,2), PRIMARY KEY (id));
