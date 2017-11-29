@@ -24,6 +24,14 @@
 			$stmt->execute ();
 			return $stmt->fetchAll ( PDO::FETCH_ASSOC );
 		}
+		public function addToQuotes($quote, $author) {
+			print_r($quote, $author);
+			$stmt = $this->DB->prepare( "insert into group (groupName, description, amount, user) VALUES (now(), '" . $groupName . "', '" . $description . "', '" . $amount . "', '" . $user . "')" );
+			//$stmt = $this->DB->prepare( "insert into quotations (added, quote, author, rating, flagged) VALUES (now(), 'Rainbow Connection2', 'Kermit2', 0, 0)" );
+			$stmt->execute ();
+			return;
+			//$stmt->fetchAll ( PDO::FETCH_ASSOC );
+		}
 		
 		public function getHashForUser($user) {
 			$stmt = $this->DB->prepare ( "SELECT hash FROM users where username= '" . $user . "'" );
@@ -60,40 +68,8 @@
 			}
 			return FALSE;
 		}
-		public function addToQuotes($quote, $author) {
-			print_r($quote, $author);
-			$stmt = $this->DB->prepare( "insert into quotations (added, quote, author, rating, flagged) VALUES (now(), '" . $quote . "', '" . $author . "', 0, 0)" );
-			//$stmt = $this->DB->prepare( "insert into quotations (added, quote, author, rating, flagged) VALUES (now(), 'Rainbow Connection2', 'Kermit2', 0, 0)" );
-			$stmt->execute ();
-			return;
-			//$stmt->fetchAll ( PDO::FETCH_ASSOC );
-		}
-		public function addRate($num, $author) {
-			//print_r($num);
-			$num = $num + 1;
-			$stmt = $this->DB->prepare( "UPDATE quotations SET rating='" . $num . "' WHERE author='" . $author . "'" );
-			$stmt->execute ();
-			return;
-			//$stmt->fetchAll ( PDO::FETCH_ASSOC );
-		}
-		public function minusRate($num, $author) {
-			//print_r($num);
-			$num = $num - 1;
-			$stmt = $this->DB->prepare( "UPDATE quotations SET rating='" . $num . "' WHERE author='" . $author . "'" );
-			$stmt->execute ();
-			return;
-		}
-		
-		public function flagClick($flag, $author){
-				$stmt = $this->DB->prepare( "UPDATE quotations SET flagged='" . $flag . "' WHERE author='" . $author . "'" );
-				$stmt->execute ();
-				return;
-		}
-		public function unflagAll(){
-			$stmt = $this->DB->prepare( "UPDATE quotations SET flagged='0'");
-			$stmt->execute ();
-			return;
-		}
+
+
 	} // End class DatabaseAdaptor
 	  
 	// Testing code that should not be run when a part of MVC
