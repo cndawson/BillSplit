@@ -8,10 +8,9 @@ session_start ();
 unset ( $_SESSION ['loginError'] );
 unset($_SESSION['registerError'] );
  {
-	//print_r("getQuotesAsArray to quotes\n");
-	//echo("getQuotesAsArray to quotes\n");
- 	$arr = $theDBA->getQuotesAsArray ();
-	echo json_encode ( $arr );
+//--------------just to get the users to enter until we've changed this-----
+// 	$arr = $theDBA->getQuotesAsArray ();
+//	echo json_encode ( $arr );
 }
 if (isset ( $_POST ['IDL'] ) && isset ( $_POST ['passwordL'] )) {
 	$result = $theDBA->LogIN ($_POST ['IDL'], $_POST ['passwordL']);
@@ -34,7 +33,7 @@ if (isset ( $_POST ['ID'] ) && isset ( $_POST ['password'] )) {
 		header('Location: register.php');
 	}
 	else
-		 header('Location: main.php');
+		 header('Location: index.php');
 }
 if (isset ( $_POST ['logout'] )) {
 	session_destroy ();

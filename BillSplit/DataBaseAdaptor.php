@@ -7,7 +7,7 @@
 		// Make a connection to an existing data based named 'imdb_small' that has
 		// table . In this assignment you will also need a new table named 'users'
 		public function __construct() {
-			$db = 'mysql:dbname=quotes;host=127.0.0.1;charset=utf8';
+			$db = 'mysql:dbname=BillSplit;host=127.0.0.1;charset=utf8';
 			$user = 'root';
 			$password = '';
 			
@@ -19,19 +19,19 @@
 				exit ();
 			}
 		}
-		public function getQuotesAsArray() {
+		/*public function getQuotesAsArray() {
 			$stmt = $this->DB->prepare ( "SELECT quote, author, rating, flagged FROM quotations" );
 			$stmt->execute ();
 			return $stmt->fetchAll ( PDO::FETCH_ASSOC );
 		}
 		public function addToQuotes($quote, $author) {
 			print_r($quote, $author);
-			$stmt = $this->DB->prepare( "insert into group (groupName, description, amount, user) VALUES (now(), '" . $groupName . "', '" . $description . "', '" . $amount . "', '" . $user . "')" );
+			$stmt = $this->DB->prepare( "insert into payments (user, groupName, description, amount) VALUES (now(), '" . $user . "', '" . $groupName . "', '" . $description . "', '" . $amount . "')" );
 			//$stmt = $this->DB->prepare( "insert into quotations (added, quote, author, rating, flagged) VALUES (now(), 'Rainbow Connection2', 'Kermit2', 0, 0)" );
 			$stmt->execute ();
 			return;
 			//$stmt->fetchAll ( PDO::FETCH_ASSOC );
-		}
+		}*/
 		
 		public function getHashForUser($user) {
 			$stmt = $this->DB->prepare ( "SELECT hash FROM users where username= '" . $user . "'" );
@@ -62,7 +62,7 @@
 					
 				$hash = password_hash($pswd, PASSWORD_DEFAULT);
 				echo password_verify($pswd, $hash) . PHP_EOL;
-				$stmt = $this->DB->prepare ( "Insert into users (username, hash) VALUES ('" . $user . "', '" . $hash . "')" );
+				$stmt = $this->DB->prepare ( "Insert into users (username, hash, payed, owed, groupName) VALUES ('" . $user . "', '" . $hash . "', 0.0, 0.0, '')" );
 				$stmt->execute ();
 			  	return TRUE;
 			}
