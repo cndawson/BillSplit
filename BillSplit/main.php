@@ -6,12 +6,23 @@ Author: Caylie Dawson
 <head>
 <title>Main Page</title>
 <style>
-div {
-	border: 1px solid black;
+.register {
 	border-radius: 10px;
-	padding: 5px;
-	margin: 10px;
 	float: left;
+	position: absolute;
+	top: 30%;
+	left: 47%;
+	margin-top: -50px;
+	margin-left: -100px;
+	padding: 30px;
+	text-align: center;
+	background: rgba(0,0,0,.50);
+    backdrop-filter:blur(60px);
+    border-radius: 25px;
+    color: white;
+}
+.fields{
+margin: 10px;
 }
 </style>
 </head>
@@ -24,14 +35,11 @@ session_start ();
 echo "<form action=\"controller.php\" method=\"POST\">
 		<button type=\"submit\" name=\"logout\">Logout</button>
 	</form>";
+
 if (isset ( $_SESSION ['group'] )) {
-	echo "<form action=\"controller.php\" method=\"POST\">
-		<button type=\"submit\" name=\"unflag\">Unflag All</button>
-		<button type=\"submit\" name=\"logout\">Logout</button>
-	</form>";
-}
-else {
-	echo "<div>Register for a group here! <br>
+	echo "<div onload=\"getData()\"><div id=\"toChange\"><div><div>";
+} else {
+	echo "<div class=\"register\">Register for a group here! <br>
 		<form action=\"controller.php\" method=\"POST\">
 		<input class=\"fields\" type=\"text\" value=\"Name Your Group\" name=\"groupRegister\">
 		<button type=\"submit\" name=\"registerGroup\">Register</button>
@@ -43,5 +51,7 @@ else {
 	</form></div>";
 }
 ?>
+<script>
+  </script>
 </body>
 </html>

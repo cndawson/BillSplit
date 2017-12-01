@@ -27,13 +27,34 @@
 		//-------------------------------------------------------------------------//
 //////////HAVE TO CHECK IF GROUPNAME IS ALREADY REGISTERED, SEARCH THROUGH THE USERS DATABASE AND SEE IF ANY OF THE GROUPS MATCH?//////////////////
 		//-------------------------------------------------------------------------//
-		public function addGroupToUser($groupName, $user) {
-			//print_r($quote, $author);
-			$stmt = $this->DB->prepare( "UPDATE users set groupName='" . $groupName . "' where username='" . $user . "'" );
-			//$stmt = $this->DB->prepare( "insert into quotations (added, quote, author, rating, flagged) VALUES (now(), 'Rainbow Connection2', 'Kermit2', 0, 0)" );
+		public function checkGroup ($groupName){
+			$stmt = $this->DB->prepare("select username from users where groupName='" . $groupName . "'");
 			$stmt->execute ();
-			return;
+			return $stmt->fetchAll ( PDO::FETCH_ASSOC );
+		}
+		public function joinGroup($groupName, $user) {
+			//print_r($quote, $author);
+			$groupCheck = $this->checkGroup($user);
+			if (sizeof($groupCheck) != 0) {
+			$stmt = $this->DB->prepare( "UPDATE users set groupName='" . $groupName . "' where username='" . $user . "'" );
+			$stmt->execute ();
+			return TRUE;
+			}
+			else 
+				return FALSE;
 			//$stmt->fetchAll ( PDO::FETCH_ASSOC );
+		}
+		
+		public function registerGroup($groupName, $user) {
+			$groupCheck = $this->checkGroup($user);
+			print_r(sizeof($groupCheck));
+			if (sizeof($groupCheck) != 0) {
+				return FALSE;
+			}
+			else
+				$stmt = $this->DB->prepare( "UPDATE users set groupName='" . $groupName . "' where username='" . $user . "'" );
+				$stmt->execute ();
+				return TRUE;
 		}
 		public function addPayment($user, $groupName, $description, $amount) {
 			//print_r($quote, $author);
