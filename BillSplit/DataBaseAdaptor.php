@@ -19,19 +19,30 @@
 				exit ();
 			}
 		}
-		/*public function getQuotesAsArray() {
-			$stmt = $this->DB->prepare ( "SELECT quote, author, rating, flagged FROM quotations" );
+		public function getPaymentsAsArray($group) {
+			$stmt = $this->DB->prepare ( "SELECT username, description, amount FROM payments WHERE= '" . $group ."'" );
 			$stmt->execute ();
 			return $stmt->fetchAll ( PDO::FETCH_ASSOC );
 		}
-		public function addToQuotes($quote, $author) {
-			print_r($quote, $author);
+		//-------------------------------------------------------------------------//
+//////////HAVE TO CHECK IF GROUPNAME IS ALREADY REGISTERED, SEARCH THROUGH THE USERS DATABASE AND SEE IF ANY OF THE GROUPS MATCH?//////////////////
+		//-------------------------------------------------------------------------//
+		public function addGroupToUser($groupName, $user) {
+			//print_r($quote, $author);
+			$stmt = $this->DB->prepare( "UPDATE users set groupName='" . $groupName . "' where username='" . $user . "'" );
+			//$stmt = $this->DB->prepare( "insert into quotations (added, quote, author, rating, flagged) VALUES (now(), 'Rainbow Connection2', 'Kermit2', 0, 0)" );
+			$stmt->execute ();
+			return;
+			//$stmt->fetchAll ( PDO::FETCH_ASSOC );
+		}
+		public function addPayment($user, $groupName, $description, $amount) {
+			//print_r($quote, $author);
 			$stmt = $this->DB->prepare( "insert into payments (user, groupName, description, amount) VALUES (now(), '" . $user . "', '" . $groupName . "', '" . $description . "', '" . $amount . "')" );
 			//$stmt = $this->DB->prepare( "insert into quotations (added, quote, author, rating, flagged) VALUES (now(), 'Rainbow Connection2', 'Kermit2', 0, 0)" );
 			$stmt->execute ();
 			return;
 			//$stmt->fetchAll ( PDO::FETCH_ASSOC );
-		}*/
+		}
 		
 		public function getHashForUser($user) {
 			$stmt = $this->DB->prepare ( "SELECT hash FROM users where username= '" . $user . "'" );

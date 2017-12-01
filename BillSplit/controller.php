@@ -35,6 +35,21 @@ if (isset ( $_POST ['ID'] ) && isset ( $_POST ['password'] )) {
 	else
 		 header('Location: index.php');
 }
+if(isset( $_POST ['group'])){
+	$arr = $theDBA->getPaymentsAsArray ($_POST ['group']);
+	echo json_encode ( $arr ); 
+}
+
+if (isset ( $_POST ['groupRegister'] )) {
+
+	$result = $theDBA->addGroupToUser ($_POST ['groupRegister'], ( $_SESSION ['user'] ));
+	if ($result == FALSE) { // user already exists
+		$_SESSION['registerError'] = "Group name already taken";
+		header('Location: main.php');
+	}
+	else
+		header('Location: main.php');
+}
 if (isset ( $_POST ['logout'] )) {
 	session_destroy ();
 	header ( 'Location: index.php' );
