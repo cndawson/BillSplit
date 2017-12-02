@@ -25,7 +25,7 @@
 			return $stmt->fetchAll ( PDO::FETCH_ASSOC );
 		}
 		//-------------------------------------------------------------------------//
-//////////HAVE TO CHECK IF GROUPNAME IS ALREADY REGISTERED, SEARCH THROUGH THE USERS DATABASE AND SEE IF ANY OF THE GROUPS MATCH?//////////////////
+		/////////HAVE TO CHECK IF GROUPNAME IS ALREADY REGISTERED, SEARCH THROUGH THE USERS DATABASE AND SEE IF ANY OF THE GROUPS MATCH?//////////////////
 		//-------------------------------------------------------------------------//
 
 		public function addGroupToUser($groupName, $user) {
@@ -48,7 +48,7 @@
 		public function joinGroup($groupName, $user) {
 
 			$groupCheck = $this->checkGroup($user);
-			if (!$groupCheck) {
+			if ($groupCheck) {
 				$stmt = $this->DB->prepare( "UPDATE users set groupName='" . $groupName . "' where username='" . $user . "'" );
 				$stmt->execute ();
 				return TRUE;

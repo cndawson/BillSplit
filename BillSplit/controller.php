@@ -7,7 +7,8 @@ include 'DataBaseAdaptor.php';
 session_start ();
 unset ( $_SESSION ['loginError'] );
 unset($_SESSION['registerError'] );
-unset($_SESSION['groupError'] );
+unset($_SESSION['groupRegisterError'] );
+unset($_SESSION['groupJoinError'] );
  {
 //--------------just to get the users to enter until we've changed this-----
 // 	$arr = $theDBA->getQuotesAsArray ();
@@ -36,31 +37,36 @@ if (isset ( $_POST ['ID'] ) && isset ( $_POST ['password'] )) {
 	else
 		 header('Location: index.php');
 }
+
 if(isset( $_POST ['group'])){
 	$arr = $theDBA->getPaymentsAsArray ($_POST ['group']);
 	echo json_encode ( $arr ); 
 }
 
 if (isset ( $_POST ['groupRegister'] )) {
-
 	$result = $theDBA->registerGroup ($_POST ['groupRegister'], ( $_SESSION ['user'] ));
 	if ($result == FALSE) { // group already exists
-		$_SESSION['groupError'] = "Group name already taken";
+		$_SESSION['groupRegisterError'] = "Group name not available";
 		header('Location: main.php');
 	}
-	else
+	else{
+		$_SESSION ['group'] = $_POST ['groupRegister'];
 		header('Location: main.php');
+	}
 }
-if (isset ( $_POST ['joinGroup'] )) {
 
-	$result = $theDBA->joinGroup ($_POST ['groupRegister'], ( $_SESSION ['user'] ));
+if (isset ( $_POST ['joinGroup'] )) {
+	$result = $theDBA->joinGroup ($_POST ['groupJoin'], ( $_SESSION ['user'] ));
 	if ($result == FALSE) { // user already exists
-		$_SESSION['joinError'] = "No group by that name";
+		$_SESSION['groupJoinError'] = "No group by that name";
 		header('Location: main.php');
 	}
-	else
+	else{
+		$_SESSION ['group'] = $_POST ['groupJoin'];
 		header('Location: main.php');
+	}
 }
+
 if (isset ( $_POST ['logout'] )) {
 	session_destroy ();
 	header ( 'Location: index.php' );
