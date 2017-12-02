@@ -37,7 +37,8 @@ echo "<form action=\"controller.php\" method=\"POST\">
 	</form>";
 
 if (isset ( $_SESSION ['group'] )) {
-	echo "<div onload=\"getData()\"><div id=\"toChange\"><div><div>";
+	echo "<div onload=\"getData()\"><div id=\"toChange\">This user is member of a group,
+			we need to display the payments/dashboard of the user<div><div>";
 } else {
 	echo "<div class=\"register\">Register for a group here! <br>
 		<form action=\"controller.php\" method=\"POST\">

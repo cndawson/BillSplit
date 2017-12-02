@@ -45,6 +45,15 @@
 			return TRUE;
 		}
 		
+		public function getGroup ($user){
+			$stmt = $this->DB->prepare("select groupName from users where username='" . $user . "'");
+			$stmt->execute ();
+			$aux = $stmt->fetchAll ( PDO::FETCH_ASSOC );
+			if(count($aux)>0)
+				return $aux[0]['groupName'];
+			return FALSE;
+		}
+		
 		public function joinGroup($groupName, $user) {
 
 			$groupCheck = $this->checkGroup($user);

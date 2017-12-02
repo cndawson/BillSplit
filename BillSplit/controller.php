@@ -17,6 +17,10 @@ unset($_SESSION['groupJoinError'] );
 if (isset ( $_POST ['IDL'] ) && isset ( $_POST ['passwordL'] )) {
 	$result = $theDBA->LogIN ($_POST ['IDL'], $_POST ['passwordL']);
 	if( $result == TRUE){
+		
+		$memberOfGroup = $theDBA->getGroup($_POST ['IDL']);
+		if($memberOfGroup!=FALSE)
+			$_SESSION['group'] = $memberOfGroup;
 		$_SESSION['user'] = $_POST ['IDL'];
 		header('Location: main.php');
 		//move to main page
