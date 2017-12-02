@@ -44,7 +44,7 @@ if(isset( $_POST ['group'])){
 if (isset ( $_POST ['groupRegister'] )) {
 
 	$result = $theDBA->registerGroup ($_POST ['groupRegister'], ( $_SESSION ['user'] ));
-	if ($result == FALSE) { // user already exists
+	if ($result == FALSE) { // group already exists
 		$_SESSION['groupError'] = "Group name already taken";
 		header('Location: main.php');
 	}

@@ -37,44 +37,40 @@
 		}
 
 		public function checkGroup ($groupName){
-			$stmt = $this->DB->prepare("select username from users where groupName='" . $groupName . "'");
+			$stmt = $this->DB->prepare("select * from users where groupName='" . $groupName . "'");
 			$stmt->execute ();
-			return $stmt->fetchAll ( PDO::FETCH_ASSOC );
-		}
-		public function joinGroup($groupName, $user) {
-
-			//print_r($quote, $author);
-			$groupCheck = $this->checkGroup($user);
-			if (sizeof($groupCheck) != 0) {
-			$stmt = $this->DB->prepare( "UPDATE users set groupName='" . $groupName . "' where username='" . $user . "'" );
-			$stmt->execute ();
-			return TRUE;
-
-
-			}
-			else 
+			$aux = $stmt->fetchAll ( PDO::FETCH_ASSOC );
+			if(count($aux)==0) 
 				return FALSE;
-			//$stmt->fetchAll ( PDO::FETCH_ASSOC );
+			return TRUE;
 		}
 		
-		public function registerGroup($groupName, $user) {
+		public function joinGroup($groupName, $user) {
+
 			$groupCheck = $this->checkGroup($user);
-			print_r(sizeof($groupCheck));
-			if (sizeof($groupCheck) != 0) {
-				return FALSE;
-			}
-			else
+			if (!$groupCheck) {
 				$stmt = $this->DB->prepare( "UPDATE users set groupName='" . $groupName . "' where username='" . $user . "'" );
 				$stmt->execute ();
 				return TRUE;
+			}
+			return FALSE;
 		}
+		
+		public function registerGroup($groupName, $user) {
+			$groupCheck = $this->checkGroup($groupName);
+			if (!$groupCheck){
+				$stmt = $this->DB->prepare( "UPDATE users set groupName='" . $groupName . "' where username='" . $user . "'" );
+				$stmt->execute ();
+				return TRUE;
+			}
+			return FALSE;
+		}
+		
 		public function addPayment($user, $groupName, $description, $amount) {
-			//print_r($quote, $author);
 			$stmt = $this->DB->prepare( "insert into payments (user, groupName, description, amount) VALUES (now(), '" . $user . "', '" . $groupName . "', '" . $description . "', '" . $amount . "')" );
 			//$stmt = $this->DB->prepare( "insert into quotations (added, quote, author, rating, flagged) VALUES (now(), 'Rainbow Connection2', 'Kermit2', 0, 0)" );
 			$stmt->execute ();
 			return;
-			//$stmt->fetchAll ( PDO::FETCH_ASSOC );
 		}
 		
 		public function getHashForUser($user) {
