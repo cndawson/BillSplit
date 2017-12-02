@@ -43,9 +43,19 @@ if(isset( $_POST ['group'])){
 
 if (isset ( $_POST ['groupRegister'] )) {
 
-	$result = $theDBA->addGroupToUser ($_POST ['groupRegister'], ( $_SESSION ['user'] ));
+	$result = $theDBA->registerGroup ($_POST ['groupRegister'], ( $_SESSION ['user'] ));
 	if ($result == FALSE) { // user already exists
 		$_SESSION['groupError'] = "Group name already taken";
+		header('Location: main.php');
+	}
+	else
+		header('Location: main.php');
+}
+if (isset ( $_POST ['joinGroup'] )) {
+
+	$result = $theDBA->joinGroup ($_POST ['groupRegister'], ( $_SESSION ['user'] ));
+	if ($result == FALSE) { // user already exists
+		$_SESSION['joinError'] = "No group by that name";
 		header('Location: main.php');
 	}
 	else
