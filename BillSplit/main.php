@@ -24,6 +24,19 @@ Author: Caylie Dawson
 .fields{
 margin: 10px;
 }
+
+table, td, th {
+  border: 1px solid black;
+  padding: 5px;
+} 
+
+table {
+  border-collapse: collapse;
+}
+
+tr:nth-child(even) {
+  background-color: #f2f2f2
+}
 </style>
 </head>
 <body>
@@ -62,6 +75,33 @@ if (isset ( $_SESSION ['group'] )) {
 }
 ?>
 <script>
-  </script>
+var $arr = [];
+function getData() {
+	var ajax = new XMLHttpRequest();
+	ajax.open("GET", "controller.php?getPayments=yes", true); // Arguments Method, url, async
+	ajax.send();
+   anObj.onreadystatechange = function () {
+   if (anObj.readyState == 4 && anObj.status == 200) {
+      array = JSON.parse(anObj.responseText);
+      str = "<table>";
+      str += "<th>Username</th>"
+      str += "<th>Description</th>"
+      str += "<th>Amount</th>" 
+
+      for (var i = 0; i < array.length; i++) {
+         str += "<tr>";
+         str += "<td>" + array[i]['username'] + "</td>";
+         str += "<td>" + array[i]['description'] + "</td>";
+         str += "<td>$" + array[i]['amount'] + "</td>";
+         str += "</tr>";
+      }
+      str += "</table>";
+      var toChange = document.getElementById("toChange");
+      console.log(str);
+      toChange.innerHTML = str;
+    }
+  };
+}
+</script>
 </body>
 </html>

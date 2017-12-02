@@ -71,6 +71,11 @@ if (isset ( $_POST ['joinGroup'] )) {
 	}
 }
 
+if(isset ( $_GET['getPayments'] ) && $_POST['getPayments']=="yes") {
+	$payments = $theDBA->getPaymentsAsArray($_SESSION['group']);
+	echo json_encode ( $payments );
+}
+
 if (isset ( $_POST ['logout'] )) {
 	session_destroy ();
 	header ( 'Location: index.php' );
