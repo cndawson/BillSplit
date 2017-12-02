@@ -1,5 +1,5 @@
 create database BillSplit;
-use database BillSplit;
+use BillSplit;
 
 create table users (id int(6) unsigned AUTO_INCREMENT, username varchar(64), hash varchar(255), payed double(20,2), owed double(20,2), groupName varchar(64), PRIMARY KEY (id));
 

@@ -33,12 +33,14 @@ if (isset ( $_SESSION ['group'] )) {
 else {
 	echo "<div>Register for a group here! <br>
 		<form action=\"controller.php\" method=\"POST\">
-		<input class=\"fields\" type=\"text\" value=\"Name Your Group\" name=\"groupRegister\">
-		<button type=\"submit\" name=\"registerGroup\">Register</button>
-	</form> <br>
+		<input class=\"fields\" type=\"text\" placeholder=\"Name Your Group\" name=\"groupRegister\">
+		<button type=\"submit\" name=\"registerGroup\">Register</button>";
+	if(isset($_SESSION['groupError']))
+		echo "<br>" . $_SESSION['groupError'];
+	echo "</form> <br>
 		Already have a group?<br>
 		<form action=\"controller.php\" method=\"POST\">
-		<input class=\"fields\" type=\"text\" value=\"Group Name\" name=\"groupJoin\">
+		<input class=\"fields\" type=\"text\" placeholder=\"Group Name\" name=\"groupJoin\">
 		<button type=\"submit\" name=\"joinGroup\">Join</button>
 	</form></div>";
 }

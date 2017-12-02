@@ -7,6 +7,7 @@ include 'DataBaseAdaptor.php';
 session_start ();
 unset ( $_SESSION ['loginError'] );
 unset($_SESSION['registerError'] );
+unset($_SESSION['groupError'] );
  {
 //--------------just to get the users to enter until we've changed this-----
 // 	$arr = $theDBA->getQuotesAsArray ();
@@ -44,7 +45,7 @@ if (isset ( $_POST ['groupRegister'] )) {
 
 	$result = $theDBA->addGroupToUser ($_POST ['groupRegister'], ( $_SESSION ['user'] ));
 	if ($result == FALSE) { // user already exists
-		$_SESSION['registerError'] = "Group name already taken";
+		$_SESSION['groupError'] = "Group name already taken";
 		header('Location: main.php');
 	}
 	else

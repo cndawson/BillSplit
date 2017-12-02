@@ -28,11 +28,16 @@
 //////////HAVE TO CHECK IF GROUPNAME IS ALREADY REGISTERED, SEARCH THROUGH THE USERS DATABASE AND SEE IF ANY OF THE GROUPS MATCH?//////////////////
 		//-------------------------------------------------------------------------//
 		public function addGroupToUser($groupName, $user) {
+			$aux = $this->DB->prepare( "SELECT * FROM users where groupName='" . $groupName . "'" );
+			$aux->execute ();
+			$arr = $aux->fetchAll ( PDO::FETCH_ASSOC );
+			if(count($arr)>0)
+				return FALSE;
 			//print_r($quote, $author);
 			$stmt = $this->DB->prepare( "UPDATE users set groupName='" . $groupName . "' where username='" . $user . "'" );
 			//$stmt = $this->DB->prepare( "insert into quotations (added, quote, author, rating, flagged) VALUES (now(), 'Rainbow Connection2', 'Kermit2', 0, 0)" );
 			$stmt->execute ();
-			return;
+			return TRUE;
 			//$stmt->fetchAll ( PDO::FETCH_ASSOC );
 		}
 		public function addPayment($user, $groupName, $description, $amount) {
