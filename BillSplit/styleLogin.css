@@ -10,6 +10,19 @@ body {
 	padding-top:15px;
 }
 
+.font{
+	font-family:'Segoe UI';
+}
+
+.buttonLogin{
+	background-color:transparent;
+	border: solid white 2px;
+	border-radius:5px;
+	font-family:'Segoe UI';
+	color:white;
+	font-size:12pt;
+}
+
 form {
 	display: grid;
 	grid-template-columns: 80px 140px;
@@ -20,9 +33,10 @@ form {
 
 .fields { 
 grid-column: 2 / 2; 
-height: 30px; 
-font-family: Arial; 
+height-line: 15px; 
+font-family: 'Segoe UI'; 
 font-size: 10pt;
+margin-bottom:5px;
 }
 
 .centered {
