@@ -62,7 +62,7 @@
 		
 		public function joinGroup($groupName, $user) {
 
-			$groupCheck = $this->checkGroup($user);
+			$groupCheck = $this->checkGroup($groupName);
 			if ($groupCheck) {
 				$stmt = $this->DB->prepare( "UPDATE users set groupName='" . $groupName . "' where username='" . $user . "'" );
 				$stmt->execute ();

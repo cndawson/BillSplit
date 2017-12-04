@@ -111,13 +111,16 @@ function getDataPeople() {
       if ($array.length == 0){
           str2 = "No one else in this group";
       }
+      else{
+    	  str2 = "<table>";
+          str2 += "<th>Users in this group</th>"
       for (var i = 0; i < $array.length; i++) {
-         //str += "<tr>";
-         str2 = "";
-         str2 += "" + $array[i]['username'] + "<br>";
-        // str += "</tr>";
+         str2 += "<tr>";
+         str2 += "<td style='text-align:center;'>" + $array[i]['username'] + "</td>";
+        str2 += "</tr>";
       }
-      //str += "</table>";
+      str2 += "</table>";
+      }
       var toChange = document.getElementById("people");
       toChange.innerHTML = str2;
       //toChange.innerHTML = "CHANGED";

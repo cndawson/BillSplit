@@ -59,14 +59,18 @@ if (isset ( $_POST ['groupRegister'] )) {
 	}
 }
 
-if (isset ( $_POST ['joinGroup'] )) {
+if (isset ( $_POST ['groupJoin'] )) {
 	$result = $theDBA->joinGroup ($_POST ['groupJoin'], ( $_SESSION ['user'] ));
-	if ($result == FALSE) { // user already exists
+	if ($result == FALSE) { // no group by that name 
 		$_SESSION['groupJoinError'] = "No group by that name";
 		header('Location: main.php');
 	}
 	else{
+		//error_log( $_POST ['groupJoin']);
 		$_SESSION ['group'] = $_POST ['groupJoin'];
+		
+		//$_SESSION ['group'] = "testgroup";
+		echo $_POST ['groupJoin'];
 		header('Location: main.php');
 	}
 }
