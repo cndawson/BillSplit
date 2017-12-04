@@ -82,7 +82,9 @@
 		}
 		
 		public function addPayment($user, $groupName, $description, $amount) {
-			$stmt = $this->DB->prepare( "insert into payments (username, groupName, description, amount) VALUES ('" . $user . "', '" . $groupName . "', '" . $description . "', '" . $amount . "', CURRENT_TIMESTAMP())" );
+			$stmt = $this->DB->prepare( "insert into payments (username, groupName, description, amount, date)".
+										 "VALUES ('" . $user . "', '" . $groupName . "', '" . $description .  		
+										 "', " . $amount . ", CURRENT_TIMESTAMP())" );
 			//$stmt = $this->DB->prepare( "insert into quotations (added, quote, author, rating, flagged) VALUES (now(), 'Rainbow Connection2', 'Kermit2', 0, 0)" );
 			$stmt->execute ();
 			return;

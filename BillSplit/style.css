@@ -80,7 +80,7 @@ tr:nth-child(even) {
 
 #addPayment{
 	width: 45%;
-	height: 350px;
+	height: auto;
 	float:right;
 	background-color: lightblue;
 	padding:10px;
@@ -106,3 +106,13 @@ tr:nth-child(even) {
 	margin-left:10%;
 }
 
+.buttonAdd{
+	background-color:transparent;
+	border: solid white 2px;
+	border-radius:5px;
+	font-family:'Segoe UI';
+	color:white;
+	font-size:12pt;
+	cursor:pointer;
+	margin:10px;
+}
