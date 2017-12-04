@@ -20,7 +20,7 @@
 			}
 		}
 		public function getPaymentsAsArray($group) {
-			$stmt = $this->DB->prepare ( "SELECT username, description, amount FROM payments WHERE groupName= '" . $group ."'" );
+			$stmt = $this->DB->prepare ( "SELECT username, description, amount, date FROM payments WHERE groupName= '" . $group ."'" );
 			$stmt->execute ();
 			return $stmt->fetchAll ( PDO::FETCH_ASSOC );
 		}
@@ -76,7 +76,7 @@
 		}
 		
 		public function addPayment($user, $groupName, $description, $amount) {
-			$stmt = $this->DB->prepare( "insert into payments (username, groupName, description, amount) VALUES (now(), '" . $user . "', '" . $groupName . "', '" . $description . "', '" . $amount . "')" );
+			$stmt = $this->DB->prepare( "insert into payments (username, groupName, description, amount) VALUES ('" . $user . "', '" . $groupName . "', '" . $description . "', '" . $amount . "', CURRENT_TIMESTAMP())" );
 			//$stmt = $this->DB->prepare( "insert into quotations (added, quote, author, rating, flagged) VALUES (now(), 'Rainbow Connection2', 'Kermit2', 0, 0)" );
 			$stmt->execute ();
 			return;
