@@ -4,15 +4,16 @@ Author: Caylie Dawson & Christian Mancha
 -->
 <html>
 <head>
-	<title>Main Page</title>
-	<link rel="stylesheet" type="text/css" href="style.css"/>
+<title>Main Page</title>
+<link rel="stylesheet" type="text/css" href="style.css" />
 	<?php
-		session_start ();
+	session_start ();
 	?>
 </head>
-<body onload="getData()">
+<body onload="getData();getDataPeople()">
 
-<!-- If group is set then show the payments else as them to register -->
+	<!-- If group is set then show the payments else as them to register -->
+
 
 <div id="mainContainer">
 	<div id="header">
@@ -32,9 +33,8 @@ Author: Caylie Dawson & Christian Mancha
 		<div id="personalInfo">
 			<span class="font">Personal information</span>
 		</div>
-		
-	</div>
-	<div id="right">
+		</div>
+		<div id="right">
 		<?php
 		if (isset ( $_SESSION ['group'] )) {
 			echo "
@@ -64,8 +64,8 @@ Author: Caylie Dawson & Christian Mancha
 				<input class=\"fields\" type=\"text\" placeholder=\"Name Your Group\" name=\"groupRegister\" required>
 				<button type=\"submit\" name=\"registerGroup\">Register</button>";
 			
-			if(isset($_SESSION['groupRegisterError']))
-				echo "<br>" . $_SESSION['groupRegisterError'];
+			if (isset ( $_SESSION ['groupRegisterError'] ))
+				echo "<br>" . $_SESSION ['groupRegisterError'];
 			
 			echo "</form> <br>
 				Already have a group?<br>
@@ -73,15 +73,15 @@ Author: Caylie Dawson & Christian Mancha
 				<input class=\"fields\" type=\"text\" placeholder=\"Group Name\" name=\"groupJoin\" required>
 				<button type=\"submit\" name=\"joinGroup\">Join</button>";
 			
-			if(isset($_SESSION['groupJoinError']))
-				echo "<br>" . $_SESSION['groupJoinError'];
+			if (isset ( $_SESSION ['groupJoinError'] ))
+				echo "<br>" . $_SESSION ['groupJoinError'];
 			
 			echo "</form></div>";
 		}
 		?>
 	</div>
-</div>
-<script>
+	</div>
+	<script>
 var $array = [];
 function getData() {
 	var ajax = new XMLHttpRequest();
@@ -108,6 +108,30 @@ function getData() {
       var toChange = document.getElementById("payments");
       
       toChange.innerHTML = str;
+    }
+  };
+}
+
+function getDataPeople() {
+	var ajax = new XMLHttpRequest();
+	ajax.open("GET", "controller.php?getUsersInGroup=yes", true); // Arguments Method, url, async
+	ajax.send();
+   ajax.onreadystatechange = function () {
+   if (ajax.readyState == 4 && ajax.status == 200) {
+      $array = JSON.parse(ajax.responseText);
+      if ($array.length == 0){
+          str2 = "No one else in this group";
+      }
+      for (var i = 0; i < $array.length; i++) {
+         //str += "<tr>";
+         str2 = "";
+         str2 += "" + $array[i]['username'] + "<br>";
+        // str += "</tr>";
+      }
+      //str += "</table>";
+      var toChange = document.getElementById("people");
+      toChange.innerHTML = str2;
+      //toChange.innerHTML = "CHANGED";
     }
   };
 }

@@ -76,9 +76,15 @@ if(isset ( $_GET['getPayments'] ) && $_GET['getPayments']=="yes") {
 	echo json_encode ( $payments );
 }
 
+
 if(isset ( $_POST['paymentDescription']) && isset($_POST['amount'])){
 	$theDBA->addPayment($_SESSION['user'],$_SESSION['group'], $_POST['paymentDescription'], $_POST['amount']);
 	header('Location: main.php');
+}
+	
+if(isset ( $_GET['getUsersInGroup'] ) && $_GET['getUsersInGroup']=="yes") {
+	$usersInGroup = $theDBA->getUsersInGroupAsArray($_SESSION['group'],( $_SESSION ['user'] ));
+	echo json_encode ( $usersInGroup );
 }
 
 if (isset ( $_POST ['logout'] )) {
