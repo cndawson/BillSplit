@@ -1,57 +1,32 @@
 <!DOCTYPE html>
 <!-- 
-Author: Caylie Dawson
+Author: Caylie Dawson & Christian Mancha
 -->
 <html>
 <head>
-<title>Main Page</title>
-<style>
-.register {
-	border-radius: 10px;
-	float: left;
-	position: absolute;
-	top: 30%;
-	left: 47%;
-	margin-top: -50px;
-	margin-left: -100px;
-	padding: 30px;
-	text-align: center;
-	background: rgba(0,0,0,.50);
-    backdrop-filter:blur(60px);
-    border-radius: 25px;
-    color: white;
-}
-.fields{
-margin: 10px;
-}
-
-table, td, th {
-  border: 1px solid black;
-  padding: 5px;
-} 
-
-table {
-  border-collapse: collapse;
-}
-
-tr:nth-child(even) {
-  background-color: #f2f2f2
-}
-</style>
+	<title>Main Page</title>
+	<link rel="stylesheet" type="text/css" href="style.css"/>
+	<?php
+		session_start ();
+	?>
 </head>
 <body onload="getData()">
-<?php
-session_start ();
-?>
+
 <!-- If group is set then show the payments else as them to register -->
 <?php
-echo "<form action=\"controller.php\" method=\"POST\">
-		<button type=\"submit\" name=\"logout\">Logout</button>
-	</form>";
+echo "<div id=\"mainContainer\">
+		<div id=\"header\">
+			<img id=\"logo\" src=\"images/blacklogo.png\"/>
+			<form id=\"logout\" action=\"controller.php\" method=\"POST\">
+				<button id=\"logoutButton\" type=\"submit\" name=\"logout\">Logout</button>
+			</form>
+		</div>
+	";
 
 if (isset ( $_SESSION ['group'] )) {
-	echo "<div id=\"toChange\">This user is member of a group, 
-we need to display the payments/dashboard of the user<div>";
+	echo "<div id=\"toChange\">
+			This user is member of a group, we need to display the payments/dashboard of the user
+		  <div>";
 } else {
 	echo "<div class=\"register\">Register for a group here! <br>
 		<form action=\"controller.php\" method=\"POST\">
@@ -70,8 +45,7 @@ we need to display the payments/dashboard of the user<div>";
 	if(isset($_SESSION['groupJoinError']))
 		echo "<br>" . $_SESSION['groupJoinError'];
 	
-	echo "</form></div>";
-	
+	echo "</form></div></div>";
 }
 ?>
 <script>

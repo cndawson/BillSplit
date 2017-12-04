@@ -1,0 +1,40 @@
+body {
+	background-image: url("images/background.jpg");
+	background-position: center;
+    background-repeat: no-repeat;
+}
+
+#logo{
+	width: 180px;
+	height: 55px;
+	padding-top:15px;
+}
+
+form {
+	display: grid;
+	grid-template-columns: 80px 140px;
+	padding: 5px;
+	margin: 10px;
+	float: left;
+}
+
+.fields { 
+grid-column: 2 / 2; 
+height: 30px; 
+font-family: Arial; 
+font-size: 10pt;
+}
+
+.centered {
+	position: absolute;
+	top: 30%;
+	left: 47%;
+	margin-top: -50px;
+	margin-left: -100px;
+	padding-bottom: 10px;
+	text-align: center;
+	background: rgba(0,0,0,.40);
+    backdrop-filter:blur(60px);
+    border-radius: 25px;
+    color: white;
+}

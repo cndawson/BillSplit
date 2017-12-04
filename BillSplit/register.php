@@ -4,47 +4,13 @@ Author: Caylie Dawson
 -->
 <html>
 <head>
-<title>Register Page</title>
-<style>
-body {
-	background-image: url("images/greenback.png");
-}
-.centered {
-	position: absolute;
-	top: 30%;
-	left: 45%;
-	margin-top: -50px;
-	margin-left: -100px;
-	padding-bottom: 10px;
-	text-align: center;
-	background: rgba(0,0,0,.50);
-    backdrop-filter:blur(60px);
-    border-radius: 25px;
-}
-form {
-  display: grid; 
-  grid-template-columns:
-80px 140px;
-  padding: 5px;
-  margin: 10px;
-  float: left;
-} 
-.fields { 
-grid-column: 2 / 2; 
-height: 30px; 
-font-family: Arial; 
-font-size: 10pt;
-}
-h3{
-text-align:center;
-}
-
-</style>
+	<title>Register Page</title>
+	<link rel="stylesheet" type="text/css" href="styleRegister.css"/>
+	<?php
+		session_start ();
+	?>
 </head>
 <body>
-<?php
-session_start ();
-?>
 <div class="centered">
 <h3>Register</h3>
 	<form action="controller.php" method="POST">
