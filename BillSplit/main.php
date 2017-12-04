@@ -39,7 +39,7 @@ tr:nth-child(even) {
 }
 </style>
 </head>
-<body>
+<body onload="getData()">
 <?php
 session_start ();
 ?>
@@ -50,8 +50,8 @@ echo "<form action=\"controller.php\" method=\"POST\">
 	</form>";
 
 if (isset ( $_SESSION ['group'] )) {
-	echo "<div onload=\"getData()\"><div id=\"toChange\">This user is member of a group,
-			we need to display the payments/dashboard of the user<div><div>";
+	echo "<div id=\"toChange\">This user is member of a group, 
+we need to display the payments/dashboard of the user<div>";
 } else {
 	echo "<div class=\"register\">Register for a group here! <br>
 		<form action=\"controller.php\" method=\"POST\">
@@ -75,24 +75,25 @@ if (isset ( $_SESSION ['group'] )) {
 }
 ?>
 <script>
-var $arr = [];
+var $array = [];
 function getData() {
+	console.log("Hola");
 	var ajax = new XMLHttpRequest();
 	ajax.open("GET", "controller.php?getPayments=yes", true); // Arguments Method, url, async
 	ajax.send();
-   anObj.onreadystatechange = function () {
-   if (anObj.readyState == 4 && anObj.status == 200) {
-      array = JSON.parse(anObj.responseText);
+   ajax.onreadystatechange = function () {
+   if (ajax.readyState == 4 && ajax.status == 200) {
+      $array = JSON.parse(ajax.responseText);
       str = "<table>";
       str += "<th>Username</th>"
       str += "<th>Description</th>"
       str += "<th>Amount</th>" 
 
-      for (var i = 0; i < array.length; i++) {
+      for (var i = 0; i < $array.length; i++) {
          str += "<tr>";
-         str += "<td>" + array[i]['username'] + "</td>";
-         str += "<td>" + array[i]['description'] + "</td>";
-         str += "<td>$" + array[i]['amount'] + "</td>";
+         str += "<td>" + $array[i]['username'] + "</td>";
+         str += "<td>" + $array[i]['description'] + "</td>";
+         str += "<td>$" + $array[i]['amount'] + "</td>";
          str += "</tr>";
       }
       str += "</table>";

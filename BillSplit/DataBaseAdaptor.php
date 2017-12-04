@@ -20,7 +20,7 @@
 			}
 		}
 		public function getPaymentsAsArray($group) {
-			$stmt = $this->DB->prepare ( "SELECT username, description, amount FROM payments WHERE= '" . $group ."'" );
+			$stmt = $this->DB->prepare ( "SELECT username, description, amount FROM payments WHERE groupName= '" . $group ."'" );
 			$stmt->execute ();
 			return $stmt->fetchAll ( PDO::FETCH_ASSOC );
 		}

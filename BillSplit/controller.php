@@ -71,7 +71,7 @@ if (isset ( $_POST ['joinGroup'] )) {
 	}
 }
 
-if(isset ( $_GET['getPayments'] ) && $_POST['getPayments']=="yes") {
+if(isset ( $_GET['getPayments'] ) && $_GET['getPayments']=="yes") {
 	$payments = $theDBA->getPaymentsAsArray($_SESSION['group']);
 	echo json_encode ( $payments );
 }
