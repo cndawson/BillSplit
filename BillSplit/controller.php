@@ -76,6 +76,11 @@ if(isset ( $_GET['getPayments'] ) && $_GET['getPayments']=="yes") {
 	echo json_encode ( $payments );
 }
 
+if(isset ( $_POST['paymentDescription']) && isset($_POST['amount'])){
+	$theDBA->addPayment($_SESSION['user'],$_SESSION['group'], $_POST['paymentDescription'], $_POST['amount']);
+	header('Location: main.php');
+}
+
 if (isset ( $_POST ['logout'] )) {
 	session_destroy ();
 	header ( 'Location: index.php' );

@@ -27,7 +27,7 @@ Author: Caylie Dawson & Christian Mancha
 		<!-- Profile section -->
 		<img class="profilePicture" src="images/profilepicture.jpg"/>
 		<br>
-		<h1 id="welcomeMessage">Hello Christian!</h1> 
+		<h1 id="welcomeMessage">Hello <?php echo $_SESSION ['user']?>!</h1> 
 		<hr>
 		<div id="personalInfo">
 			<span class="font">Personal information</span>
@@ -37,16 +37,25 @@ Author: Caylie Dawson & Christian Mancha
 	<div id="right">
 		<?php
 		if (isset ( $_SESSION ['group'] )) {
-			echo "<div id=\"payments\">
+			echo "
+				  <h2><span class=\"font\">". $_SESSION ['group'] . " - Payments</h2></span>
+				  <div id=\"payments\">
 					Loading...
 				  </div>
 				  <br>
 				  <div id=\"bottom\">
 					  <div id=\"people\">
-						<span class=\"font\">People in the same group as the user</span>
+						<span class=\"font\"><h3>People in the same group as the user</h3></span>
 					  </div>
 					  <div id=\"addPayment\">
-						<span class=\"font\">Add payment form</span>
+						<span class=\"font\"><h3>Add payment!</h3>
+							<form action=\"controller.php\" method=\"POST\">
+								<textarea class=\"fields\" rows=\"6\" cols=\"30\" placeholder=\"Payment description\" name=\"paymentDescription\" required></textarea>
+								<input class=\"fields\" type=\"text\" pattern=\"[+-]?([0-9]*[.])?[0-9]+\" placeholder=\"Amount\" name=\"amount\" required>
+								<br>
+								<button class=\"buttonAdd\" type=\"submit\">Add payment</button>
+							</form>
+						</span>
 					  </div>
 				  </div>";
 		} else {
