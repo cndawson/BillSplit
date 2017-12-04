@@ -24,6 +24,12 @@
 			$stmt->execute ();
 			return $stmt->fetchAll ( PDO::FETCH_ASSOC );
 		}
+		
+		public function getUsersInGroupAsArray($group, $user) {
+			$stmt = $this->DB->prepare ( "SELECT username FROM users WHERE groupName= '" . $group ."' and username !='" . $user . "'" );
+			$stmt->execute ();
+			return $stmt->fetchAll ( PDO::FETCH_ASSOC );
+		}
 		//-------------------------------------------------------------------------//
 		/////////HAVE TO CHECK IF GROUPNAME IS ALREADY REGISTERED, SEARCH THROUGH THE USERS DATABASE AND SEE IF ANY OF THE GROUPS MATCH?//////////////////
 		//-------------------------------------------------------------------------//

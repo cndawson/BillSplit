@@ -4,37 +4,35 @@ Author: Caylie Dawson & Christian Mancha
 -->
 <html>
 <head>
-	<title>Main Page</title>
-	<link rel="stylesheet" type="text/css" href="style.css"/>
+<title>Main Page</title>
+<link rel="stylesheet" type="text/css" href="style.css" />
 	<?php
-		session_start ();
+	session_start ();
 	?>
 </head>
-<body onload="getData()">
+<body onload="getData();getDataPeople()">
 
-<!-- If group is set then show the payments else as them to register -->
+	<!-- If group is set then show the payments else as them to register -->
 
-<div id="mainContainer">
-	<div id="header">
-		<img id="logo" src="images/blacklogo.png"/>
-		<form id="logout" action="controller.php" method="POST">
-			<button id="logoutButton" type="submit" name="logout">Logout</button>
-		</form>
-	</div>
-	<br>
-	<br>
-	<div id="left">
-		<!-- Profile section -->
-		<img class="profilePicture" src="images/profilepicture.jpg"/>
-		<br>
-		<h1 id="welcomeMessage">Hello Christian!</h1> 
-		<hr>
-		<div id="personalInfo">
-			<span class="font">Personal information</span>
+	<div id="mainContainer">
+		<div id="header">
+			<img id="logo" src="images/blacklogo.png" />
+			<form id="logout" action="controller.php" method="POST">
+				<button id="logoutButton" type="submit" name="logout">Logout</button>
+			</form>
 		</div>
-		
-	</div>
-	<div id="right">
+		<br> <br>
+		<div id="left">
+			<!-- Profile section -->
+			<img class="profilePicture" src="images/profilepicture.jpg" /> <br>
+			<h1 id="welcomeMessage">Hello Christian!</h1>
+			<hr>
+			<div id="personalInfo">
+				<span class="font">Personal information</span>
+			</div>
+
+		</div>
+		<div id="right">
 		<?php
 		if (isset ( $_SESSION ['group'] )) {
 			echo "<div id=\"payments\">
@@ -42,7 +40,7 @@ Author: Caylie Dawson & Christian Mancha
 				  </div>
 				  <br>
 				  <div id=\"bottom\">
-					  <div id=\"people\">
+					  <div id=\"people\" >
 						<span class=\"font\">People in the same group as the user</span>
 					  </div>
 					  <div id=\"addPayment\">
@@ -55,8 +53,8 @@ Author: Caylie Dawson & Christian Mancha
 				<input class=\"fields\" type=\"text\" placeholder=\"Name Your Group\" name=\"groupRegister\" required>
 				<button type=\"submit\" name=\"registerGroup\">Register</button>";
 			
-			if(isset($_SESSION['groupRegisterError']))
-				echo "<br>" . $_SESSION['groupRegisterError'];
+			if (isset ( $_SESSION ['groupRegisterError'] ))
+				echo "<br>" . $_SESSION ['groupRegisterError'];
 			
 			echo "</form> <br>
 				Already have a group?<br>
@@ -64,15 +62,15 @@ Author: Caylie Dawson & Christian Mancha
 				<input class=\"fields\" type=\"text\" placeholder=\"Group Name\" name=\"groupJoin\" required>
 				<button type=\"submit\" name=\"joinGroup\">Join</button>";
 			
-			if(isset($_SESSION['groupJoinError']))
-				echo "<br>" . $_SESSION['groupJoinError'];
+			if (isset ( $_SESSION ['groupJoinError'] ))
+				echo "<br>" . $_SESSION ['groupJoinError'];
 			
 			echo "</form></div>";
 		}
 		?>
 	</div>
-</div>
-<script>
+	</div>
+	<script>
 var $array = [];
 function getData() {
 	var ajax = new XMLHttpRequest();
@@ -99,6 +97,30 @@ function getData() {
       var toChange = document.getElementById("payments");
       
       toChange.innerHTML = str;
+    }
+  };
+}
+
+function getDataPeople() {
+	var ajax = new XMLHttpRequest();
+	ajax.open("GET", "controller.php?getUsersInGroup=yes", true); // Arguments Method, url, async
+	ajax.send();
+   ajax.onreadystatechange = function () {
+   if (ajax.readyState == 4 && ajax.status == 200) {
+      $array = JSON.parse(ajax.responseText);
+      if ($array.length == 0){
+          str2 = "No one else in this group";
+      }
+      for (var i = 0; i < $array.length; i++) {
+         //str += "<tr>";
+         str2 = "";
+         str2 += "" + $array[i]['username'] + "<br>";
+        // str += "</tr>";
+      }
+      //str += "</table>";
+      var toChange = document.getElementById("people");
+      toChange.innerHTML = str2;
+      //toChange.innerHTML = "CHANGED";
     }
   };
 }

@@ -76,6 +76,11 @@ if(isset ( $_GET['getPayments'] ) && $_GET['getPayments']=="yes") {
 	echo json_encode ( $payments );
 }
 
+if(isset ( $_GET['getUsersInGroup'] ) && $_GET['getUsersInGroup']=="yes") {
+	$usersInGroup = $theDBA->getUsersInGroupAsArray($_SESSION['group'],( $_SESSION ['user'] ));
+	echo json_encode ( $usersInGroup );
+}
+
 if (isset ( $_POST ['logout'] )) {
 	session_destroy ();
 	header ( 'Location: index.php' );
