@@ -20,13 +20,16 @@
 			}
 		}
 		public function getPaymentsAsArray($group) {
-			$stmt = $this->DB->prepare ( "SELECT username, description, amount, date FROM payments WHERE groupName= '" . $group ."'" );
+			$stmt = $this->DB->prepare ( "SELECT users.username, payments.groupName, payments.description, payments.amount, payments.date from payments join users on payments.username = users.username where payments.groupName = :group" );
+			$stmt->bindParam(':group', $group);
 			$stmt->execute ();
 			return $stmt->fetchAll ( PDO::FETCH_ASSOC );
 		}
 		
 		public function getUsersInGroupAsArray($group, $user) {
-			$stmt = $this->DB->prepare ( "SELECT username FROM users WHERE groupName= '" . $group ."' and username !='" . $user . "'" );
+			$stmt = $this->DB->prepare ( "SELECT username FROM users WHERE groupName= :group and username != :user" );
+			$stmt->bindParam(':group', $group);
+			$stmt->bindParam(':user', $user);
 			$stmt->execute ();
 			return $stmt->fetchAll ( PDO::FETCH_ASSOC );
 		}
@@ -34,16 +37,9 @@
 		/////////HAVE TO CHECK IF GROUPNAME IS ALREADY REGISTERED, SEARCH THROUGH THE USERS DATABASE AND SEE IF ANY OF THE GROUPS MATCH?//////////////////
 		//-------------------------------------------------------------------------//
 
-		public function addGroupToUser($groupName, $user) {
-			$aux = $this->DB->prepare( "SELECT * FROM users where groupName='" . $groupName . "'" );
-			$aux->execute ();
-			$arr = $aux->fetchAll ( PDO::FETCH_ASSOC );
-			if(count($arr)>0)
-				return FALSE;
-		}
-
-		public function checkGroup ($groupName){
-			$stmt = $this->DB->prepare("select * from users where groupName='" . $groupName . "'");
+		public function checkGroup ($group){
+			$stmt = $this->DB->prepare("select * from users where groupName= :group");
+			$stmt->bindParam(':group', $group);
 			$stmt->execute ();
 			$aux = $stmt->fetchAll ( PDO::FETCH_ASSOC );
 			if(count($aux)==0) 
@@ -52,7 +48,8 @@
 		}
 		
 		public function getGroup ($user){
-			$stmt = $this->DB->prepare("select groupName from users where username='" . $user . "'");
+			$stmt = $this->DB->prepare("select groupName from users where username= :user");
+			$stmt->bindParam(':user', $user);
 			$stmt->execute ();
 			$aux = $stmt->fetchAll ( PDO::FETCH_ASSOC );
 			if(count($aux)>0)
@@ -60,38 +57,46 @@
 			return FALSE;
 		}
 		
-		public function joinGroup($groupName, $user) {
+		public function joinGroup($group, $user) {
 
-			$groupCheck = $this->checkGroup($groupName);
+			$groupCheck = $this->checkGroup($group);
 			if ($groupCheck) {
-				$stmt = $this->DB->prepare( "UPDATE users set groupName='" . $groupName . "' where username='" . $user . "'" );
+				$stmt = $this->DB->prepare( "UPDATE users set groupName= :group where username= :user" );
+				$stmt->bindParam(':group', $group);
+				$stmt->bindParam(':user', $user);
 				$stmt->execute ();
 				return TRUE;
 			}
 			return FALSE;
 		}
 		
-		public function registerGroup($groupName, $user) {
-			$groupCheck = $this->checkGroup($groupName);
+		public function registerGroup($group, $user) {
+			$groupCheck = $this->checkGroup($group);
 			if (!$groupCheck){
-				$stmt = $this->DB->prepare( "UPDATE users set groupName='" . $groupName . "' where username='" . $user . "'" );
+				$stmt = $this->DB->prepare( "UPDATE users set groupName=:group where username=:user" );
+				$stmt->bindParam(':group', $group);
+				$stmt->bindParam(':user', $user);
 				$stmt->execute ();
 				return TRUE;
 			}
 			return FALSE;
 		}
 		
-		public function addPayment($user, $groupName, $description, $amount) {
+		public function addPayment($user, $group, $description, $amount) {
 			$stmt = $this->DB->prepare( "insert into payments (username, groupName, description, amount, date)".
-										 "VALUES ('" . $user . "', '" . $groupName . "', '" . $description .  		
-										 "', " . $amount . ", CURRENT_TIMESTAMP())" );
+										 "VALUES (:user, :group, :description, :amount, CURRENT_TIMESTAMP())" );
+			$stmt->bindParam(':group', $group);
+			$stmt->bindParam(':user', $user);
+			$stmt->bindParam(':description', $description);
+			$stmt->bindParam(':amount', $amount);
 			//$stmt = $this->DB->prepare( "insert into quotations (added, quote, author, rating, flagged) VALUES (now(), 'Rainbow Connection2', 'Kermit2', 0, 0)" );
 			$stmt->execute ();
 			return;
 		}
 		
 		public function getHashForUser($user) {
-			$stmt = $this->DB->prepare ( "SELECT hash FROM users where username= '" . $user . "'" );
+			$stmt = $this->DB->prepare ( "SELECT hash FROM users where username= :user" );
+			$stmt->bindParam(':user', $user);
 			$stmt->execute ();
 			return $stmt->fetchAll ( PDO::FETCH_ASSOC );
 		}
@@ -119,7 +124,9 @@
 					
 				$hash = password_hash($pswd, PASSWORD_DEFAULT);
 				echo password_verify($pswd, $hash) . PHP_EOL;
-				$stmt = $this->DB->prepare ( "Insert into users (username, hash, payed, owed, groupName) VALUES ('" . $user . "', '" . $hash . "', 0.0, 0.0, '')" );
+				$stmt = $this->DB->prepare ( "Insert into users (username, hash, payed, owed, groupName) VALUES (:user, :hash, 0.0, 0.0, '')" );
+				$stmt->bindParam(':hash', $hash);
+				$stmt->bindParam(':user', $user);
 				$stmt->execute ();
 			  	return TRUE;
 			}
