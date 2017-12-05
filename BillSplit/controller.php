@@ -85,10 +85,24 @@ if(isset ( $_POST['paymentDescription']) && isset($_POST['amount'])){
 	$theDBA->addPayment($_SESSION['user'],$_SESSION['group'], $_POST['paymentDescription'], $_POST['amount']);
 	header('Location: main.php');
 }
+//if(isset ( $_POST['paymentDescription']) && isset($_POST['amount'])){
+//	$theDBA->addPaymentToUsers($_SESSION['user'],$_POST['amount']);
+//	header('Location: main.php');
+//}
+
+if(isset($_POST['amountPayed'])){
+	$theDBA->addUserPayment($_SESSION['user'],$_POST['amountPayed']);
+	header('Location: main.php');
+}
 	
 if(isset ( $_GET['getUsersInGroup'] ) && $_GET['getUsersInGroup']=="yes") {
 	$usersInGroup = $theDBA->getUsersInGroupAsArray($_SESSION['group'],( $_SESSION ['user'] ));
 	echo json_encode ( $usersInGroup );
+}
+
+if(isset ( $_GET['getAmountArray'] ) && $_GET['getAmountArray']=="yes") {
+	$amounts = $theDBA->getAmount($_SESSION['group'],( $_SESSION ['user'] ));
+	echo json_encode ( $amounts );
 }
 
 if (isset ( $_POST ['logout'] )) {

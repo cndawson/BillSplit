@@ -30,9 +30,6 @@
 			$stmt->execute ();
 			return $stmt->fetchAll ( PDO::FETCH_ASSOC );
 		}
-		//-------------------------------------------------------------------------//
-		/////////HAVE TO CHECK IF GROUPNAME IS ALREADY REGISTERED, SEARCH THROUGH THE USERS DATABASE AND SEE IF ANY OF THE GROUPS MATCH?//////////////////
-		//-------------------------------------------------------------------------//
 
 		public function addGroupToUser($groupName, $user) {
 			$aux = $this->DB->prepare( "SELECT * FROM users where groupName='" . $groupName . "'" );
@@ -89,7 +86,30 @@
 			$stmt->execute ();
 			return;
 		}
-		
+		/*public function addPaymentToUser($user, $amount) {
+			$payed = $this->checkPayed($user);
+			$owed = $this->checkOwed($user);
+			$stmt = $this->DB->prepare( "insert into users (username, groupName, description, amount, date)".
+					"VALUES ('" . $user . "', '" . $groupName . "', '" . $description .
+					"', " . $amount . ", CURRENT_TIMESTAMP())" );
+			//$stmt = $this->DB->prepare( "insert into quotations (added, quote, author, rating, flagged) VALUES (now(), 'Rainbow Connection2', 'Kermit2', 0, 0)" );
+			$stmt->execute ();
+			return;
+		}
+		*/
+		public function checkOwed($user) {
+			$stmt = $this->DB->prepare ( "SELECT owed FROM users where username= '" . $user . "'" );
+			$stmt->execute ();
+			return $stmt->fetchAll ( PDO::FETCH_ASSOC );
+		}
+		public function addUserPayment($user, $amount) {
+			$owed = $this->checkOwed($user);
+			$currentOwed = $owed - $amount;
+			$stmt = $this->DB->prepare("UPDATE users set owed='" . $currentOwed . "' where username='" . $user . "'" );
+			//$stmt = $this->DB->prepare( "insert into quotations (added, quote, author, rating, flagged) VALUES (now(), 'Rainbow Connection2', 'Kermit2', 0, 0)" );
+			$stmt->execute ();
+			return;
+		}
 		public function getHashForUser($user) {
 			$stmt = $this->DB->prepare ( "SELECT hash FROM users where username= '" . $user . "'" );
 			$stmt->execute ();
@@ -124,6 +144,11 @@
 			  	return TRUE;
 			}
 			return FALSE;
+		}
+		public function getAmount($group, $user){
+			$stmt = $this->DB->prepare ( "SELECT payed, owed FROM users WHERE groupName= '" . $group ."' and username !='" . $user . "'" );
+			$stmt->execute ();
+			return $stmt->fetchAll ( PDO::FETCH_ASSOC );
 		}
 
 

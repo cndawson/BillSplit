@@ -10,7 +10,7 @@ Author: Caylie Dawson & Christian Mancha
 	session_start ();
 	?>
 </head>
-<body onload="getData();getDataPeople()">
+<body onload="getData();getDataPeople();getAmounts()">
 
 	<!-- If group is set then show the payments else as them to register -->
 
@@ -31,7 +31,14 @@ Author: Caylie Dawson & Christian Mancha
 		<h1 id="welcomeMessage">Hello <?php echo $_SESSION ['user']?>!</h1> 
 		<hr>
 		<div id="personalInfo">
-			<span class="font">Personal information</span>
+			<span class="font"><?php echo "<h3>Your Statement :</h3><span class=\"font\">
+							<h4 id=\"statement\">something</h4>
+							<form action=\"controller.php\" method=\"POST\">
+								Make a payment <input class=\"fields\" type=\"text\" pattern=\"[+-]?([0-9]*[.])?[0-9]+\" placeholder=\"Amount\" name=\"amountPayed\" required>
+								<br>
+								<button class=\"buttonAdd\" type=\"submit\">Confirm Payment</button>
+							</form>
+						</span>"?></span>
 		</div>
 		</div>
 		<div id="right">
@@ -134,6 +141,30 @@ function getDataPeople() {
       }
       var toChange = document.getElementById("people");
       toChange.innerHTML = str2;
+      //toChange.innerHTML = "CHANGED";
+    }
+  };
+}
+function getAmounts() {
+	var ajax = new XMLHttpRequest();
+	ajax.open("GET", "controller.php?getAmountArray=yes", true); // Arguments Method, url, async
+	ajax.send();
+   ajax.onreadystatechange = function () {
+   if (ajax.readyState == 4 && ajax.status == 200) {
+      $array = JSON.parse(ajax.responseText);
+      $str3 = "";
+	if( $array[0]['payed'] == $array[0]['owed'])
+		 $str3 = "Payments are equil";
+	if( $array[0]['payed'] > $array[0]['owed']){
+		$difference = $array[0]['payed'] - $array[0]['owed'];
+		 $str3 = "The group owes you: $" . $difference;
+	}
+	if( $array[0]['payed'] < $array[0]['owed']){
+		$difference = $array[0]['owed']- $array[0]['payed'];
+		 $str3 = "You owe the group: $" . $difference;
+	}
+      var toChange = document.getElementById("statement");
+      toChange.innerHTML = $str3;
       //toChange.innerHTML = "CHANGED";
     }
   };
