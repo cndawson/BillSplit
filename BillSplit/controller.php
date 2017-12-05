@@ -15,10 +15,12 @@ unset($_SESSION['groupJoinError'] );
 //	echo json_encode ( $arr );
 }
 if (isset ( $_POST ['IDL'] ) && isset ( $_POST ['passwordL'] )) {
-	$result = $theDBA->LogIN ($_POST ['IDL'], $_POST ['passwordL']);
+	$auxIDL = htmlspecialchars($_POST['IDL']);
+	$auxpasswordL = htmlspecialchars($_POST['passwordL']);
+	$result = $theDBA->LogIN ($auxIDL, $auxpasswordL);
 	if( $result == TRUE){
 		
-		$memberOfGroup = $theDBA->getGroup($_POST ['IDL']);
+		$memberOfGroup = $theDBA->getGroup($auxIDL);
 		if($memberOfGroup!=FALSE)
 			$_SESSION['group'] = $memberOfGroup;
 		$_SESSION['user'] = $_POST ['IDL'];
@@ -32,8 +34,9 @@ if (isset ( $_POST ['IDL'] ) && isset ( $_POST ['passwordL'] )) {
 
 }
 if (isset ( $_POST ['ID'] ) && isset ( $_POST ['password'] )) {
-	
-	$result = $theDBA->addToUsers ($_POST ['ID'], $_POST ['password']);
+	$auxID = htmlspecialchars($_POST['ID']);
+	$auxpassword = htmlspecialchars($_POST['password']);
+	$result = $theDBA->addToUsers ($auxID, $auxpassword);
 	if ($result == FALSE) { // user already exists 
 		$_SESSION['registerError'] = "Username already taken";
 		header('Location: register.php');
@@ -48,7 +51,8 @@ if(isset( $_POST ['group'])){
 }
 
 if (isset ( $_POST ['groupRegister'] )) {
-	$result = $theDBA->registerGroup ($_POST ['groupRegister'], ( $_SESSION ['user'] ));
+	$auxgroupRegister= htmlspecialchars($_POST['groupRegister']);
+	$result = $theDBA->registerGroup ($auxgroupRegister, ( $_SESSION ['user'] ));
 	if ($result == FALSE) { // group already exists
 		$_SESSION['groupRegisterError'] = "Group name not available";
 		header('Location: main.php');
@@ -60,7 +64,8 @@ if (isset ( $_POST ['groupRegister'] )) {
 }
 
 if (isset ( $_POST ['groupJoin'] )) {
-	$result = $theDBA->joinGroup ($_POST ['groupJoin'], ( $_SESSION ['user'] ));
+	$auxgroupJoin= htmlspecialchars($_POST['groupJoin']);
+	$result = $theDBA->joinGroup ($auxgroupJoin, ( $_SESSION ['user'] ));
 	if ($result == FALSE) { // no group by that name 
 		$_SESSION['groupJoinError'] = "No group by that name";
 		header('Location: main.php');
@@ -82,7 +87,9 @@ if(isset ( $_GET['getPayments'] ) && $_GET['getPayments']=="yes") {
 
 
 if(isset ( $_POST['paymentDescription']) && isset($_POST['amount'])){
-	$theDBA->addPayment($_SESSION['user'],$_SESSION['group'], $_POST['paymentDescription'], $_POST['amount']);
+	$auxpaymentDescription = htmlspecialchars($_POST['paymentDescription']);
+	$auxAmount = htmlspecialchars($_POST['amount']);
+	$theDBA->addPayment($_SESSION['user'],$_SESSION['group'], $auxpaymentDescription, $auxAmount);
 	header('Location: main.php');
 }
 //if(isset ( $_POST['paymentDescription']) && isset($_POST['amount'])){
