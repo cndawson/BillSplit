@@ -23,6 +23,11 @@ if (isset ( $_POST ['IDL'] ) && isset ( $_POST ['passwordL'] )) {
 		$memberOfGroup = $theDBA->getGroup($auxIDL);
 		if($memberOfGroup!=FALSE)
 			$_SESSION['group'] = $memberOfGroup;
+		
+		$leader = $theDBA->isLeader($auxIDL);
+		if($leader==TRUE)
+			$_SESSION['leader'] = "1";
+		
 		$_SESSION['user'] = $_POST ['IDL'];
 		header('Location: main.php');
 		//move to main page
@@ -59,6 +64,7 @@ if (isset ( $_POST ['groupRegister'] )) {
 	}
 	else{
 		$_SESSION ['group'] = $_POST ['groupRegister'];
+		$_SESSION ['leader'] = "1";
 		header('Location: main.php');
 	}
 }
@@ -108,8 +114,14 @@ if(isset ( $_GET['getUsersInGroup'] ) && $_GET['getUsersInGroup']=="yes") {
 }
 
 if(isset ( $_GET['getAmountArray'] ) && $_GET['getAmountArray']=="yes") {
-	$amounts = $theDBA->getAmount($_SESSION['group'],( $_SESSION ['user'] ));
+	$amounts = $theDBA->getAmount( $_SESSION ['user'] );
 	echo json_encode ( $amounts );
+}
+
+if(isset($_POST['finish'])){
+	$theDBA->finish($_SESSION['group']);
+	unset($_SESSION['group'] );
+	header('Location: main.php');
 }
 
 if (isset ( $_POST ['logout'] )) {

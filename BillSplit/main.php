@@ -10,7 +10,7 @@ Author: Caylie Dawson & Christian Mancha
 	session_start ();
 	?>
 </head>
-<body onload="getData();getDataPeople();getAmounts()">
+<body onload="getData();getDataPeople();">
 
 	<!-- If group is set then show the payments else as them to register -->
 
@@ -26,27 +26,44 @@ Author: Caylie Dawson & Christian Mancha
 	<br>
 	<div id="left">
 		<!-- Profile section -->
-		<img class="profilePicture" src="images/profilepicture.jpg"/>
+		<img class="profilePicture" src="images/krabby.gif"/>
 		<br>
 		<h1 id="welcomeMessage">Hello <?php echo $_SESSION ['user']?>!</h1> 
 		<hr>
 		<div id="personalInfo">
-			<span class="font"><?php echo "<h3>Your Statement :</h3><span class=\"font\">
-							<h4 id=\"statement\">something</h4>
-							<form action=\"controller.php\" method=\"POST\">
-								Make a payment <input class=\"fields\" type=\"text\" pattern=\"[+-]?([0-9]*[.])?[0-9]+\" placeholder=\"Amount\" name=\"amountPayed\" required>
-								<br>
-								<button class=\"buttonAdd\" type=\"submit\">Confirm Payment</button>
-							</form>
-						</span>"?></span>
+			<?php
+			if (isset ( $_SESSION ['group'] )) {
+				echo "<span class=\"font\"> <h3>Your Statement :</h3><span class=\"font\">
+								<h4 id=\"statement\">something</h4>
+								<form action=\"controller.php\" method=\"POST\">
+									Make a payment <input class=\"fields\" type=\"text\" pattern=\"[+-]?([0-9]*[.])?[0-9]+\" placeholder=\"Amount\" name=\"amountPayed\" required>
+									<br>
+									<button class=\"buttonAdd\" type=\"submit\">Confirm Payment</button>
+								</form>
+							</span>";
+			}
+			else{
+				echo "<span class=\"font\">Hey there! <br>It seems that you are not part of any group yet!
+						<br>What are you waiting for?!</span>";
+			}
+			?>
 		</div>
 		</div>
 		<div id="right">
 		<?php
 		if (isset ( $_SESSION ['group'] )) {
 			echo "
-				  <h2><span class=\"font\">". $_SESSION ['group'] . " - Payments</h2></span>
-				  <div id=\"payments\">
+				  <h2><span class=\"font\">". $_SESSION ['group'] . " - Payments";
+
+					if(isset ( $_SESSION ['leader'] )){
+					echo "<form id=\"finishForm\" action=\"controller.php\" method=\"POST\">
+							<input id=\"invisible\" type=\"text\" name=\"finish\" value=\"1\">
+							<button class=\"buttonAdd\" type=\"submit\">Finish trip</button>
+						  </form>";
+				  }
+				  echo "</h2></span>";
+				  
+				  echo "<div id=\"payments\">
 					Loading...
 				  </div>
 				  <br>
@@ -89,6 +106,7 @@ Author: Caylie Dawson & Christian Mancha
 	</div>
 	</div>
 	<script>
+	var total=0.0;
 var $array = [];
 function getData() {
 	var ajax = new XMLHttpRequest();
@@ -107,6 +125,7 @@ function getData() {
          str += "<tr>";
          str += "<td style='text-align:center;'>" + $array[i]['username'] + "</td>";
          str += "<td>" + $array[i]['description'] + "</td>";
+         total+=parseFloat($array[i]['amount']);
          str += "<td>$" + $array[i]['amount'] + "</td>";
          str += "<td>$" + $array[i]['date'] + "</td>";
          str += "</tr>";
@@ -118,7 +137,7 @@ function getData() {
     }
   };
 }
-
+var numberUsers=0;
 function getDataPeople() {
 	var ajax = new XMLHttpRequest();
 	ajax.open("GET", "controller.php?getUsersInGroup=yes", true); // Arguments Method, url, async
@@ -127,12 +146,13 @@ function getDataPeople() {
    if (ajax.readyState == 4 && ajax.status == 200) {
       $array = JSON.parse(ajax.responseText);
       if ($array.length == 0){
-          str2 = "No one else in this group";
+          str2 = '<span class="font">No one else in this group</span>';
       }
       else{
     	  str2 = "<table>";
           str2 += "<th>Users in this group</th>"
       for (var i = 0; i < $array.length; i++) {
+          numberUsers++;
          str2 += "<tr>";
          str2 += "<td style='text-align:center;'>" + $array[i]['username'] + "</td>";
         str2 += "</tr>";
@@ -141,28 +161,20 @@ function getDataPeople() {
       }
       var toChange = document.getElementById("people");
       toChange.innerHTML = str2;
+      getAmounts();
       //toChange.innerHTML = "CHANGED";
     }
   };
 }
 function getAmounts() {
+	var individualtotal=total/(numberUsers+1) + 0.0;
 	var ajax = new XMLHttpRequest();
 	ajax.open("GET", "controller.php?getAmountArray=yes", true); // Arguments Method, url, async
 	ajax.send();
    ajax.onreadystatechange = function () {
    if (ajax.readyState == 4 && ajax.status == 200) {
       $array = JSON.parse(ajax.responseText);
-      $str3 = "";
-	if( $array[0]['payed'] == $array[0]['owed'])
-		 $str3 = "Payments are equil";
-	if( $array[0]['payed'] > $array[0]['owed']){
-		$difference = $array[0]['payed'] - $array[0]['owed'];
-		 $str3 = "The group owes you: $" . $difference;
-	}
-	if( $array[0]['payed'] < $array[0]['owed']){
-		$difference = $array[0]['owed']- $array[0]['payed'];
-		 $str3 = "You owe the group: $" . $difference;
-	}
+      $str3 = "You have paid $" + $array[0]['payed'] + " out of $" + individualtotal;
       var toChange = document.getElementById("statement");
       toChange.innerHTML = $str3;
       //toChange.innerHTML = "CHANGED";
