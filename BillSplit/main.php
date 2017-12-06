@@ -35,12 +35,14 @@ Author: Caylie Dawson & Christian Mancha
 			<?php
 			if (isset ( $_SESSION ['group'] )) {
 				echo "<span class=\"font\"> <h3>Your Statement :</h3><span class=\"font\">
-								<h4 id=\"statement\">something</h4>
-								<form action=\"controller.php\" method=\"POST\">
-									Pay your debt here: <input class=\"fields\" type=\"text\" pattern=\"[+-]?([0-9]*[.])?[0-9]+\" placeholder=\"Amount\" name=\"amountPayed\" required>
-									<br>
-									<button class=\"buttonAdd\" type=\"submit\">Confirm Payment</button>
-								</form>
+								<h4 id=\"statement\"></h4>
+								<div id=\"paySection\">
+									<form action=\"controller.php\" method=\"POST\">
+										Pay your debt here: <input class=\"fields\" type=\"text\" pattern=\"[+-]?([0-9]*[.])?[0-9]+\" placeholder=\"Amount\" name=\"amountPayed\" required>
+										<br>
+										<button class=\"buttonAdd\" type=\"submit\">Confirm Payment</button>
+									</form>
+								</div>
 							</span>";
 			}
 			else{
@@ -106,7 +108,8 @@ Author: Caylie Dawson & Christian Mancha
 	</div>
 	</div>
 	<script>
-	var total=0.0;
+var total=0.0;
+var userTotal=0.0;
 var $array = [];
 function getData() {
 	var ajax = new XMLHttpRequest();
@@ -130,6 +133,8 @@ function getData() {
 	         str += "<td style='text-align:center;'>" + $array[i]['username'] + "</td>";
 	         str += "<td>" + $array[i]['description'] + "</td>";
 	         total+=parseFloat($array[i]['amount']);
+	         if($array[i]['username'] == "<?php echo $_SESSION ['user']; ?>" )
+	        		 userTotal+=parseFloat($array[i]['amount']);
 	         str += "<td>$" + $array[i]['amount'] + "</td>";
 	         str += "<td>" + $array[i]['date'] + "</td>";
 	         str += "</tr>";
@@ -142,7 +147,8 @@ function getData() {
     }
   };
 }
-var numberUsers=0;
+var numberUsers=1;
+var usersPayed=0.0;
 function getDataPeople() {
 	var ajax = new XMLHttpRequest();
 	ajax.open("GET", "controller.php?getUsersInGroup=yes", true); // Arguments Method, url, async
@@ -150,19 +156,21 @@ function getDataPeople() {
    ajax.onreadystatechange = function () {
    if (ajax.readyState == 4 && ajax.status == 200) {
       $array = JSON.parse(ajax.responseText);
+      var str2="";
       if ($array.length == 0){
           str2 = '<span class="font">No one else in this group yet</span>';
       }
       else{
     	  str2 = "<table>";
           str2 += "<th>Other users in this group</th>"
-      for (var i = 0; i < $array.length; i++) {
-          numberUsers++;
-         str2 += "<tr>";
-         str2 += "<td style='text-align:center;'>" + $array[i]['username'] + "</td>";
-        str2 += "</tr>";
-      }
-      str2 += "</table>";
+	      for (var i = 0; i < $array.length; i++) {
+	          numberUsers++;
+	         str2 += "<tr>";
+	         str2 += "<td style='text-align:center;'>" + $array[i]['username'] + "</td>";
+	         str2 += "</tr>";
+        	 usersPayed+=parseFloat($array[i]['payed']);
+	      }
+	      str2 += "</table>";
       }
       var toChange = document.getElementById("people");
       toChange.innerHTML = str2;
@@ -172,14 +180,29 @@ function getDataPeople() {
   };
 }
 function getAmounts() {
-	var individualtotal=total/(numberUsers+1);
 	var ajax = new XMLHttpRequest();
 	ajax.open("GET", "controller.php?getAmountArray=yes", true); // Arguments Method, url, async
 	ajax.send();
    ajax.onreadystatechange = function () {
    if (ajax.readyState == 4 && ajax.status == 200) {
-      $array = JSON.parse(ajax.responseText);
-      $str3 = "You have paid $" + $array[0]['payed'] + " out of $" + individualtotal.toFixed(2);
+      $array = JSON.parse(ajax.responseText);	
+      var totalPayed=parseFloat($array[0]['payed']) + userTotal;
+      var $str3="";
+      var individualtotal=(total + usersPayed)/numberUsers;
+      console.log("total: " + total);
+	  console.log("usersPayed: " + usersPayed);
+	  console.log("numberUsers: " + numberUsers);
+	  console.log("totalPayed: " + parseFloat(totalPayed));
+	  console.log("individualtotal: " + individualtotal);
+      if(parseFloat(totalPayed) < individualtotal)
+      	$str3 = "You have paid $" + totalPayed.toFixed(2) + " out of $" + individualtotal.toFixed(2);
+
+      if(parseFloat(totalPayed) >= individualtotal){
+    	$str3 = "The group owes you $" + (totalPayed-individualtotal).toFixed(2);
+    	var paySection = document.getElementById("paySection");
+        paySection.innerHTML = "";
+      }
+          
       var toChange = document.getElementById("statement");
       toChange.innerHTML = $str3;
       //toChange.innerHTML = "CHANGED";

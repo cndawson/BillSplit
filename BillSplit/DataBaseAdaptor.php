@@ -27,7 +27,7 @@
 		}
 		
 		public function getUsersInGroupAsArray($group, $user) {
-			$stmt = $this->DB->prepare ( "SELECT username FROM users WHERE groupName= :group and username != :user" );
+			$stmt = $this->DB->prepare ( "SELECT username,payed FROM users WHERE groupName= :group and username != :user" );
 			$stmt->bindParam(':group', $group);
 			$stmt->bindParam(':user', $user);
 			$stmt->execute ();
@@ -67,7 +67,7 @@
 			$stmt = $this->DB->prepare ( "DELETE from payments where groupName=:group" );
 			$stmt->bindParam(':group', $group);
 			$stmt->execute ();
-			$stmt = $this->DB->prepare ( "UPDATE users set payed=0, owed=0,groupName='',leader=0 where groupName=:group" );
+			$stmt = $this->DB->prepare ( "UPDATE users set payed=0,groupName='',leader=0 where groupName=:group" );
 			$stmt->bindParam(':group', $group);
 			$stmt->execute ();
 			return;
@@ -119,15 +119,15 @@
 			return;
 		}
 		*/
-		public function checkOwed($user) {
-			$stmt = $this->DB->prepare ( "SELECT owed FROM users where username= '" . $user . "'" );
+		public function checkPayed($user) {
+			$stmt = $this->DB->prepare ( "SELECT payed FROM users where username= '" . $user . "'" );
 			$stmt->execute ();
 			return $stmt->fetchAll ( PDO::FETCH_ASSOC );
 		}
 		public function addUserPayment($user, $amount) {
-			$owed = $this->checkOwed($user);
-			$currentOwed = $owed[0]['owed'] - $amount;
-			$stmt = $this->DB->prepare("UPDATE users set owed='" . $currentOwed . "' where username='" . $user . "'" );
+			$payed = $this->checkPayed($user);
+			$totalPayed = $payed[0]['payed'] + $amount;
+			$stmt = $this->DB->prepare("UPDATE users set payed='" . $totalPayed . "' where username='" . $user . "'" );
 			//$stmt = $this->DB->prepare( "insert into quotations (added, quote, author, rating, flagged) VALUES (now(), 'Rainbow Connection2', 'Kermit2', 0, 0)" );
 			$stmt->execute ();
 			return;
@@ -162,7 +162,7 @@
 					
 				$hash = password_hash($pswd, PASSWORD_DEFAULT);
 				echo password_verify($pswd, $hash) . PHP_EOL;
-				$stmt = $this->DB->prepare ( "Insert into users (username, hash, payed, owed, groupName) VALUES (:user, :hash, 0.0, 0.0, '')" );
+				$stmt = $this->DB->prepare ( "Insert into users (username, hash, payed, groupName) VALUES (:user, :hash, 0.0, '')" );
 				$stmt->bindParam(':hash', $hash);
 				$stmt->bindParam(':user', $user);
 				$stmt->execute ();
@@ -171,7 +171,7 @@
 			return FALSE;
 		}
 		public function getAmount( $user){
-			$stmt = $this->DB->prepare ( "SELECT payed, owed FROM users WHERE username ='" . $user . "'" );
+			$stmt = $this->DB->prepare ( "SELECT payed FROM users WHERE username ='" . $user . "'" );
 			$stmt->execute ();
 			return $stmt->fetchAll ( PDO::FETCH_ASSOC );
 		}
