@@ -26,7 +26,7 @@ Author: Caylie Dawson & Christian Mancha
 	<br>
 	<div id="left">
 		<!-- Profile section -->
-		<img class="profilePicture" src="images/profilepicture.jpg"/>
+		<img class="profilePicture" src="images/profile.jpg"/>
 		<br>
 		<h1 id="welcomeMessage">Hello <?php echo $_SESSION ['user']?>!</h1> 
 		<hr>
@@ -34,7 +34,7 @@ Author: Caylie Dawson & Christian Mancha
 			<span class="font"><?php echo "<h3>Your Statement :</h3><span class=\"font\">
 							<h4 id=\"statement\">something</h4>
 							<form action=\"controller.php\" method=\"POST\">
-								Make a payment <input class=\"fields\" type=\"text\" pattern=\"[+-]?([0-9]*[.])?[0-9]+\" placeholder=\"Amount\" name=\"amountPayed\" required>
+								Make a payment <input class=\"fieldA\" type=\"text\" pattern=\"[+-]?([0-9]*[.])?[0-9]+\" placeholder=\"Amount\" name=\"amountPayed\" required>
 								<br>
 								<button class=\"buttonAdd\" type=\"submit\">Confirm Payment</button>
 							</form>
@@ -57,8 +57,8 @@ Author: Caylie Dawson & Christian Mancha
 					  <div id=\"addPayment\">
 						<span class=\"font\"><h3>Add payment!</h3>
 							<form action=\"controller.php\" method=\"POST\">
-								<textarea class=\"fields\" rows=\"6\" cols=\"30\" placeholder=\"Payment description\" name=\"paymentDescription\" required></textarea>
-								<input class=\"fields\" type=\"text\" pattern=\"[+-]?([0-9]*[.])?[0-9]+\" placeholder=\"Amount\" name=\"amount\" required>
+								<textarea class=\"fields\" rows=\"13\" cols=\"30\" placeholder=\"Payment description\" name=\"paymentDescription\" required></textarea>
+								<input class=\"fieldA\" type=\"text\" pattern=\"[+-]?([0-9]*[.])?[0-9]+\" placeholder=\"Amount\" name=\"amount\" required>
 								<br>
 								<button class=\"buttonAdd\" type=\"submit\">Add payment</button>
 							</form>
@@ -108,7 +108,7 @@ function getData() {
          str += "<td style='text-align:center;'>" + $array[i]['username'] + "</td>";
          str += "<td>" + $array[i]['description'] + "</td>";
          str += "<td>$" + $array[i]['amount'] + "</td>";
-         str += "<td>$" + $array[i]['date'] + "</td>";
+         str += "<td>" + $array[i]['date'] + "</td>";
          str += "</tr>";
       }
       str += "</table>";

@@ -18,6 +18,10 @@
 .fields{
 margin: 10px;
 }
+.fieldA{
+margin: 10px;
+width:60px;
+}
 
 table, td, th {
   border: 1px solid grey;
@@ -60,9 +64,11 @@ tr:nth-child(even) {
 
 #left{
 	width: 35%;
-	height: 500px;
-	background-color:lightgrey;
+	height: 550px;
+	background: rgba(0,0,0,.20);
 	float:left;
+	text-align:center;
+	padding-right: 20px;
 }
 
 #right{
@@ -80,7 +86,7 @@ tr:nth-child(even) {
 
 #addPayment{
 	width: 45%;
-	height: auto;
+	height: 350px;
 	float:right;
 	background-color: lightblue;
 	padding:10px;
@@ -104,6 +110,7 @@ tr:nth-child(even) {
 
 #personalInfo{
 	margin-left:10%;
+	padding-bottom: 10px;
 }
 
 .buttonAdd{
@@ -115,4 +122,5 @@ tr:nth-child(even) {
 	font-size:12pt;
 	cursor:pointer;
 	margin:10px;
+	
 }
