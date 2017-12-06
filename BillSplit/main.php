@@ -10,7 +10,7 @@ Author: Caylie Dawson & Christian Mancha
 	session_start ();
 	?>
 </head>
-<body onload="getData();getDataPeople();">
+<body onload="getData();">
 
 	<!-- If group is set then show the payments else as them to register -->
 
@@ -34,7 +34,7 @@ Author: Caylie Dawson & Christian Mancha
 				echo "<span class=\"font\"> <h3>Your Statement :</h3><span class=\"font\">
 								<h4 id=\"statement\">something</h4>
 								<form action=\"controller.php\" method=\"POST\">
-									Make a payment <input class=\"fields\" type=\"text\" pattern=\"[+-]?([0-9]*[.])?[0-9]+\" placeholder=\"Amount\" name=\"amountPayed\" required>
+									Pay your debt here: <input class=\"fields\" type=\"text\" pattern=\"[+-]?([0-9]*[.])?[0-9]+\" placeholder=\"Amount\" name=\"amountPayed\" required>
 									<br>
 									<button class=\"buttonAdd\" type=\"submit\">Confirm Payment</button>
 								</form>
@@ -66,7 +66,7 @@ Author: Caylie Dawson & Christian Mancha
 				  <br>
 				  <div id=\"bottom\">
 					  <div id=\"people\">
-						<span class=\"font\"><h3>People in the same group as the user</h3></span>
+						
 					  </div>
 					  <div id=\"addPayment\">
 						<span class=\"font\"><h3>Add payment!</h3>
@@ -126,11 +126,30 @@ function getData() {
          str += "<td>$" + $array[i]['amount'] + "</td>";
          str += "<td>" + $array[i]['date'] + "</td>";
          str += "</tr>";
+      if ($array.length == 0){
+          str = '<span class="font">There are no payments yet!</span>';
       }
-      str += "</table>";
+      else{
+	      str = "<table>";
+	      str += "<th>Who paid for this?</th>"
+	      str += "<th style='width:250px;'"+">Description</th>"
+	      str += "<th>Amount</th>" 
+	      str += "<th>Date</th>"
+	
+	      for (var i = 0; i < $array.length; i++) {
+	         str += "<tr>";
+	         str += "<td style='text-align:center;'>" + $array[i]['username'] + "</td>";
+	         str += "<td>" + $array[i]['description'] + "</td>";
+	         total+=parseFloat($array[i]['amount']);
+	         str += "<td>$" + $array[i]['amount'] + "</td>";
+	         str += "<td>$" + $array[i]['date'] + "</td>";
+	         str += "</tr>";
+	      }
+	      str += "</table>";
+      }
       var toChange = document.getElementById("payments");
-      
       toChange.innerHTML = str;
+      getDataPeople();
     }
   };
 }
@@ -143,11 +162,11 @@ function getDataPeople() {
    if (ajax.readyState == 4 && ajax.status == 200) {
       $array = JSON.parse(ajax.responseText);
       if ($array.length == 0){
-          str2 = '<span class="font">No one else in this group</span>';
+          str2 = '<span class="font">No one else in this group yet</span>';
       }
       else{
     	  str2 = "<table>";
-          str2 += "<th>Users in this group</th>"
+          str2 += "<th>Other users in this group</th>"
       for (var i = 0; i < $array.length; i++) {
           numberUsers++;
          str2 += "<tr>";
@@ -164,14 +183,14 @@ function getDataPeople() {
   };
 }
 function getAmounts() {
-	var individualtotal=total/(numberUsers+1) + 0.0;
+	var individualtotal=total/(numberUsers+1);
 	var ajax = new XMLHttpRequest();
 	ajax.open("GET", "controller.php?getAmountArray=yes", true); // Arguments Method, url, async
 	ajax.send();
    ajax.onreadystatechange = function () {
    if (ajax.readyState == 4 && ajax.status == 200) {
       $array = JSON.parse(ajax.responseText);
-      $str3 = "You have paid $" + $array[0]['payed'] + " out of $" + individualtotal;
+      $str3 = "You have paid $" + $array[0]['payed'] + " out of $" + individualtotal.toFixed(2);
       var toChange = document.getElementById("statement");
       toChange.innerHTML = $str3;
       //toChange.innerHTML = "CHANGED";
