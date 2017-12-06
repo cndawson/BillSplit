@@ -1,5 +1,4 @@
 <?php
-
 // File name controller.php
 // Acts as the go between the view and the model.
 // Author Caylie Dawson
@@ -36,7 +35,6 @@ if (isset ( $_POST ['IDL'] ) && isset ( $_POST ['passwordL'] )) {
 		$_SESSION['loginError'] = 'Invalid credentials';
 		header('Location: index.php');
 	}
-
 }
 if (isset ( $_POST ['ID'] ) && isset ( $_POST ['password'] )) {
 	$auxID = htmlspecialchars($_POST['ID']);
@@ -49,12 +47,10 @@ if (isset ( $_POST ['ID'] ) && isset ( $_POST ['password'] )) {
 	else
 		 header('Location: index.php');
 }
-
 if(isset( $_POST ['group'])){
 	$arr = $theDBA->getPaymentsAsArray ($_POST ['group']);
 	echo json_encode ( $arr ); 
 }
-
 if (isset ( $_POST ['groupRegister'] )) {
 	$auxgroupRegister= htmlspecialchars($_POST['groupRegister']);
 	$result = $theDBA->registerGroup ($auxgroupRegister, ( $_SESSION ['user'] ));
@@ -68,7 +64,6 @@ if (isset ( $_POST ['groupRegister'] )) {
 		header('Location: main.php');
 	}
 }
-
 if (isset ( $_POST ['groupJoin'] )) {
 	$auxgroupJoin= htmlspecialchars($_POST['groupJoin']);
 	$result = $theDBA->joinGroup ($auxgroupJoin, ( $_SESSION ['user'] ));
@@ -85,13 +80,10 @@ if (isset ( $_POST ['groupJoin'] )) {
 		header('Location: main.php');
 	}
 }
-
 if(isset ( $_GET['getPayments'] ) && $_GET['getPayments']=="yes") {
 	$payments = $theDBA->getPaymentsAsArray($_SESSION['group']);
 	echo json_encode ( $payments );
 }
-
-
 if(isset ( $_POST['paymentDescription']) && isset($_POST['amount'])){
 	$auxpaymentDescription = htmlspecialchars($_POST['paymentDescription']);
 	$auxAmount = htmlspecialchars($_POST['amount']);
@@ -102,7 +94,6 @@ if(isset ( $_POST['paymentDescription']) && isset($_POST['amount'])){
 //	$theDBA->addPaymentToUsers($_SESSION['user'],$_POST['amount']);
 //	header('Location: main.php');
 //}
-
 if(isset($_POST['amountPayed'])){
 	$theDBA->addUserPayment($_SESSION['user'],$_POST['amountPayed']);
 	header('Location: main.php');
@@ -112,19 +103,16 @@ if(isset ( $_GET['getUsersInGroup'] ) && $_GET['getUsersInGroup']=="yes") {
 	$usersInGroup = $theDBA->getUsersInGroupAsArray($_SESSION['group'],( $_SESSION ['user'] ));
 	echo json_encode ( $usersInGroup );
 }
-
 if(isset ( $_GET['getAmountArray'] ) && $_GET['getAmountArray']=="yes") {
 	$amounts = $theDBA->getAmount( $_SESSION ['user'] );
 	echo json_encode ( $amounts );
 }
-
 if(isset($_POST['finish'])){
 	$theDBA->finish($_SESSION['group']);
 	unset($_SESSION['leader'] );
 	unset($_SESSION['group'] );
 	header('Location: main.php');
 }
-
 if (isset ( $_POST ['logout'] )) {
 	session_destroy ();
 	header ( 'Location: index.php' );

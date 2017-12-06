@@ -1,4 +1,4 @@
- <?php
+<?php
 	// Author: Caylie Dawson
 	// THISS IS JUST CODE FROM LAST PROJECT NOTHING HAS BEEN CHANGED
 	class DataBaseAdapter {
@@ -33,7 +33,6 @@
 			$stmt->execute ();
 			return $stmt->fetchAll ( PDO::FETCH_ASSOC );
 		}
-
 		public function checkGroup ($group){
 			$stmt = $this->DB->prepare("select * from users where groupName= :group");
 			$stmt->bindParam(':group', $group);
@@ -75,7 +74,6 @@
 		}
 		
 		public function joinGroup($group, $user) {
-
 			$groupCheck = $this->checkGroup($group);
 			if ($groupCheck) {
 				$stmt = $this->DB->prepare( "UPDATE users set groupName= :group where username= :user" );
@@ -177,8 +175,6 @@
 			$stmt->execute ();
 			return $stmt->fetchAll ( PDO::FETCH_ASSOC );
 		}
-
-
 	} // End class DatabaseAdaptor
 	  
 	// Testing code that should not be run when a part of MVC

@@ -15,20 +15,23 @@ Author: Caylie Dawson & Christian Mancha
 	<!-- If group is set then show the payments else as them to register -->
 
 
-	<div id="mainContainer">
-		<div id="header">
-			<img id="logo" src="images/blacklogo.png" />
-			<form id="logout" action="controller.php" method="POST">
-				<button id="logoutButton" type="submit" name="logout">Logout</button>
-			</form>
-		</div>
-		<br> <br>
-		<div id="left">
-			<!-- Profile section -->
-			<img class="profilePicture" src="images/profile.jpg" /> <br>
-			<h1 id="welcomeMessage">Hello <?php echo $_SESSION ['user']?>!</h1>
-			<hr>
-			<div id="personalInfo">
+<div id="mainContainer">
+	<div id="header">
+		<img id="logo" src="images/blacklogo.png"/>
+		<form id="logout" action="controller.php" method="POST">
+			<button id="logoutButton" type="submit" name="logout">Logout</button>
+		</form>
+				<a href="settings.php"><button id="settingsButton" type="submit">Settings</button></a>
+	</div>
+	<br>
+	<br>
+	<div id="left">
+		<!-- Profile section -->
+		<img class="profilePicture" src="images/krabby.gif"/>
+		<br>
+		<h1 id="welcomeMessage">Hello <?php echo $_SESSION ['user']?>!</h1> 
+		<hr>
+		<div id="personalInfo">
 			<?php
 			if (isset ( $_SESSION ['group'] )) {
 				echo "<span class=\"font\"> <h3>Your Statement :</h3><span class=\"font\">
@@ -39,7 +42,8 @@ Author: Caylie Dawson & Christian Mancha
 									<button class=\"buttonAdd\" type=\"submit\">Confirm Payment</button>
 								</form>
 							</span>";
-			} else {
+			}
+			else{
 				echo "<span class=\"font\">Hey there! <br>It seems that you are not part of any group yet!
 						<br>What are you waiting for?!</span>";
 			}
@@ -50,17 +54,16 @@ Author: Caylie Dawson & Christian Mancha
 		<?php
 		if (isset ( $_SESSION ['group'] )) {
 			echo "
-				  <h2><span class=\"font\">" . $_SESSION ['group'] . " - Payments";
-			
-			if (isset ( $_SESSION ['leader'] )) {
-				echo "<form id=\"finishForm\" action=\"controller.php\" method=\"POST\">
+				  <h2><span class=\"font\">". $_SESSION ['group'] . " - Payments";
+					if(isset ( $_SESSION ['leader'] )){
+					echo "<form id=\"finishForm\" action=\"controller.php\" method=\"POST\">
 							<input id=\"invisible\" type=\"text\" name=\"finish\" value=\"1\">
 							<button class=\"buttonAdd\" type=\"submit\">Finish trip</button>
 						  </form>";
-			}
-			echo "</h2></span>";
-			
-			echo "<div id=\"payments\">
+				  }
+				  echo "</h2></span>";
+				  
+				  echo "<div id=\"payments\">
 					Loading...
 				  </div>
 				  <br>
@@ -71,8 +74,8 @@ Author: Caylie Dawson & Christian Mancha
 					  <div id=\"addPayment\">
 						<span class=\"font\"><h3>Add payment!</h3>
 							<form action=\"controller.php\" method=\"POST\">
-								<textarea class=\"fields\" rows=\"13\" cols=\"30\" placeholder=\"Payment description\" name=\"paymentDescription\" required></textarea>
-								<input class=\"fieldA\" type=\"text\" pattern=\"[+-]?([0-9]*[.])?[0-9]+\" placeholder=\"Amount\" name=\"amount\" required>
+								<textarea class=\"fields\" rows=\"6\" cols=\"30\" placeholder=\"Payment description\" name=\"paymentDescription\" required></textarea>
+								<input class=\"fields\" type=\"text\" pattern=\"[+-]?([0-9]*[.])?[0-9]+\" placeholder=\"Amount\" name=\"amount\" required>
 								<br>
 								<button class=\"buttonAdd\" type=\"submit\">Add payment</button>
 							</form>
@@ -112,20 +115,6 @@ function getData() {
    ajax.onreadystatechange = function () {
    if (ajax.readyState == 4 && ajax.status == 200) {
       $array = JSON.parse(ajax.responseText);
-      str = "<table>";
-      str += "<th>Who paid for this?</th>"
-      str += "<th style='width:250px;'"+">Description</th>"
-      str += "<th>Amount</th>" 
-      str += "<th>Date</th>"
-
-      for (var i = 0; i < $array.length; i++) {
-         str += "<tr>";
-         str += "<td style='text-align:center;'>" + $array[i]['username'] + "</td>";
-         str += "<td>" + $array[i]['description'] + "</td>";
-         total+=parseFloat($array[i]['amount']);
-         str += "<td>$" + $array[i]['amount'] + "</td>";
-         str += "<td>" + $array[i]['date'] + "</td>";
-         str += "</tr>";
       if ($array.length == 0){
           str = '<span class="font">There are no payments yet!</span>';
       }
@@ -142,7 +131,7 @@ function getData() {
 	         str += "<td>" + $array[i]['description'] + "</td>";
 	         total+=parseFloat($array[i]['amount']);
 	         str += "<td>$" + $array[i]['amount'] + "</td>";
-	         str += "<td>$" + $array[i]['date'] + "</td>";
+	         str += "<td>" + $array[i]['date'] + "</td>";
 	         str += "</tr>";
 	      }
 	      str += "</table>";
