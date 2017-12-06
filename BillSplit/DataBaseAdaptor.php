@@ -52,6 +52,15 @@
 				return $aux[0]['groupName'];
 			return FALSE;
 		}
+		public function getType ($user){
+			$stmt = $this->DB->prepare("select paymentMethod from users where username= :user");
+			$stmt->bindParam(':user', $user);
+			$stmt->execute ();
+			$aux = $stmt->fetchAll ( PDO::FETCH_ASSOC );
+			if(count($aux)>0)
+				return $aux[0]['paymentMethod'];
+				return FALSE;
+		}
 		
 		public function isLeader ($user){
 			$stmt = $this->DB->prepare("select * from users where username= :user and leader=1");

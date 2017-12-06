@@ -33,6 +33,7 @@ Author: Caylie Dawson & Christian Mancha
 		<hr>
 		<div id="personalInfo">
 			<?php
+			
 			if (isset ( $_SESSION ['group'] )) {
 				echo "<span class=\"font\"> <h3>Your Statement :</h3><span class=\"font\">
 								<h4 id=\"statement\"></h4>
@@ -48,6 +49,10 @@ Author: Caylie Dawson & Christian Mancha
 			else{
 				echo "<span class=\"font\">Hey there! <br>It seems that you are not part of any group yet!
 						<br>What are you waiting for?!</span>";
+			}
+			if(isset ( $_SESSION ['paymentMethod'] )) {
+				echo "<h4><span class=\"font\">Payment Method: ". $_SESSION ['paymentMethod'] . "</h4>";
+			
 			}
 			?>
 		</div>
@@ -83,6 +88,7 @@ Author: Caylie Dawson & Christian Mancha
 							</form>
 						</span>
 					  </div>
+					
 				  </div>";
 		} else {
 			echo "<div class=\"register\">Register for a group here! <br>

@@ -23,6 +23,10 @@ if (isset ( $_POST ['IDL'] ) && isset ( $_POST ['passwordL'] )) {
 		if($memberOfGroup!=FALSE)
 			$_SESSION['group'] = $memberOfGroup;
 		
+			$paymentType = $theDBA->getType($auxIDL);
+			if($paymentType!=FALSE)
+				$_SESSION['paymentMethod'] = $paymentType;
+			
 		$leader = $theDBA->isLeader($auxIDL);
 		if($leader==TRUE)
 			$_SESSION['leader'] = "1";
@@ -113,20 +117,10 @@ if(isset($_POST['finish'])){
 	unset($_SESSION['group'] );
 	header('Location: main.php');
 }
-if(isset($_POST['credit'])){
-	$theDBA->paymentMethod($_POST['credit'],( $_SESSION ['user']) );
-	$_SESSION ['paymentMethod'] = $_POST ['credit'];
-	header('Location: settings.php');
-}
-if(isset($_POST['debit'])){
-	$theDBA->paymentMethod($_POST['debit'],( $_SESSION ['user']) );
-	$_SESSION ['paymentMethod'] = $_POST ['debit'];
-	header('Location: settings.php');
-}
-if(isset($_POST['paypall'])){
-	$theDBA->paymentMethod($_POST['paypal'],( $_SESSION ['user']) );
-	$_SESSION ['paymentMethod'] = $_POST ['paypal'];
-	header('Location: settings.php');
+if(isset($_POST['paymentType'])){
+	$theDBA->paymentMethod($_POST['paymentType'],( $_SESSION ['user']) );
+	$_SESSION ['paymentMethod'] = $_POST ['paymentType'];
+	header('Location: main.php');
 }
 if (isset ( $_POST ['logout'] )) {
 	session_destroy ();
