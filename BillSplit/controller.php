@@ -120,6 +120,7 @@ if(isset ( $_GET['getAmountArray'] ) && $_GET['getAmountArray']=="yes") {
 
 if(isset($_POST['finish'])){
 	$theDBA->finish($_SESSION['group']);
+	unset($_SESSION['leader'] );
 	unset($_SESSION['group'] );
 	header('Location: main.php');
 }

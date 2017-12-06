@@ -90,7 +90,7 @@
 		public function registerGroup($group, $user) {
 			$groupCheck = $this->checkGroup($group);
 			if (!$groupCheck){
-				$stmt = $this->DB->prepare( "UPDATE users set groupName=:group where username=:user" );
+				$stmt = $this->DB->prepare( "UPDATE users set groupName=:group,leader=1 where username=:user" );
 				$stmt->bindParam(':group', $group);
 				$stmt->bindParam(':user', $user);
 				$stmt->execute ();
@@ -128,7 +128,7 @@
 		}
 		public function addUserPayment($user, $amount) {
 			$owed = $this->checkOwed($user);
-			$currentOwed = $owed - $amount;
+			$currentOwed = $owed[0]['owed'] - $amount;
 			$stmt = $this->DB->prepare("UPDATE users set owed='" . $currentOwed . "' where username='" . $user . "'" );
 			//$stmt = $this->DB->prepare( "insert into quotations (added, quote, author, rating, flagged) VALUES (now(), 'Rainbow Connection2', 'Kermit2', 0, 0)" );
 			$stmt->execute ();
