@@ -175,6 +175,11 @@
 			$stmt->execute ();
 			return $stmt->fetchAll ( PDO::FETCH_ASSOC );
 		}
+		
+		public function paymentMethod($paymentType, $user){
+			$stmt = $this->DB->prepare("UPDATE users set paymentMethod='" . $paymentType . "' where username='" . $user . "'" );
+			$stmt->execute ();
+		}
 	} // End class DatabaseAdaptor
 	  
 	// Testing code that should not be run when a part of MVC

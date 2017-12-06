@@ -113,6 +113,21 @@ if(isset($_POST['finish'])){
 	unset($_SESSION['group'] );
 	header('Location: main.php');
 }
+if(isset($_POST['credit'])){
+	$theDBA->paymentMethod($_POST['credit'],( $_SESSION ['user']) );
+	$_SESSION ['paymentMethod'] = $_POST ['credit'];
+	header('Location: settings.php');
+}
+if(isset($_POST['debit'])){
+	$theDBA->paymentMethod($_POST['debit'],( $_SESSION ['user']) );
+	$_SESSION ['paymentMethod'] = $_POST ['debit'];
+	header('Location: settings.php');
+}
+if(isset($_POST['paypall'])){
+	$theDBA->paymentMethod($_POST['paypal'],( $_SESSION ['user']) );
+	$_SESSION ['paymentMethod'] = $_POST ['paypal'];
+	header('Location: settings.php');
+}
 if (isset ( $_POST ['logout'] )) {
 	session_destroy ();
 	header ( 'Location: index.php' );
