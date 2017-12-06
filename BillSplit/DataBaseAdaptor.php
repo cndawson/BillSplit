@@ -54,6 +54,26 @@
 			return FALSE;
 		}
 		
+		public function isLeader ($user){
+			$stmt = $this->DB->prepare("select * from users where username= :user and leader=1");
+			$stmt->bindParam(':user', $user);
+			$stmt->execute ();
+			$aux = $stmt->fetchAll ( PDO::FETCH_ASSOC );
+			if(count($aux)>0)
+				return TRUE;
+			return FALSE;
+		}
+		
+		public function finish($group) {
+			$stmt = $this->DB->prepare ( "DELETE from payments where groupName=:group" );
+			$stmt->bindParam(':group', $group);
+			$stmt->execute ();
+			$stmt = $this->DB->prepare ( "UPDATE users set payed=0, owed=0,groupName='',leader=0 where groupName=:group" );
+			$stmt->bindParam(':group', $group);
+			$stmt->execute ();
+			return;
+		}
+		
 		public function joinGroup($group, $user) {
 
 			$groupCheck = $this->checkGroup($group);
@@ -152,8 +172,8 @@
 			}
 			return FALSE;
 		}
-		public function getAmount($group, $user){
-			$stmt = $this->DB->prepare ( "SELECT payed, owed FROM users WHERE groupName= '" . $group ."' and username !='" . $user . "'" );
+		public function getAmount( $user){
+			$stmt = $this->DB->prepare ( "SELECT payed, owed FROM users WHERE username ='" . $user . "'" );
 			$stmt->execute ();
 			return $stmt->fetchAll ( PDO::FETCH_ASSOC );
 		}

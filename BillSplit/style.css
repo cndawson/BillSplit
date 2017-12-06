@@ -14,6 +14,7 @@
     backdrop-filter:blur(60px);
     border-radius: 25px;
     color: white;
+    font-family:'Segoe UI';
 }
 .fields{
 margin: 10px;
@@ -78,7 +79,7 @@ tr:nth-child(even) {
 
 #people{
 	width: 45%;
-	height: 350px;
+	height: auto;
 	float:left;
 	background-color: lightblue;
 	padding:10px;
@@ -96,7 +97,6 @@ tr:nth-child(even) {
 	width:200px;
 	margin-left:10%;
 	margin-top:15px;
-	border-radius:100%;
 }
 
 #welcomeMessage{
@@ -115,12 +115,19 @@ tr:nth-child(even) {
 
 .buttonAdd{
 	background-color:transparent;
-	border: solid white 2px;
+	border: solid black 2px;
 	border-radius:5px;
 	font-family:'Segoe UI';
-	color:white;
+	color:black;
 	font-size:12pt;
 	cursor:pointer;
 	margin:10px;
-	
+}
+
+#invisible{
+	display:none;
+}
+
+#finishForm{
+	float:right;
 }
