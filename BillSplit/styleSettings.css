@@ -52,5 +52,12 @@
     border-radius: 25px;
     color: white;
     width: 300px;
-    height: 150px;
+    height: auto;
+}
+
+.profilePicture{
+	width:200px;
+	margin-left:10%;
+	margin-top:15px;
+	border-radius:100%;
 }

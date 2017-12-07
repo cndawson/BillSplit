@@ -17,8 +17,20 @@ Author: Caylie Dawson & Christian Mancha
 		<a href="main.php"><button id="settingsButton" type="submit">Home</button></a>
 	</div>
 	<div id="centered">
-	Change Profile Picture<br>
-	<button id="edit" type="submit">Edit</button><br><br>
+	<?php
+		if (isset ( $_SESSION ['picture'] )){
+		echo "<img class=\"profilePicture\" src=\"images/profile/". $_SESSION['picture']."\"/>";
+		}
+		else{
+			echo "<img class=\"profilePicture\" src=\"images/profile/default.png\"/>";
+		}
+	?>
+	<form action="controller.php" method="POST" enctype="multipart/form-data">
+			<input type="file" name="photo">
+			<input type="submit" value="Update">
+	</form>
+	
+	<br><br>
 	Chose Payment Method
 
 	<form id="paymentMethod" action="controller.php" method="POST">

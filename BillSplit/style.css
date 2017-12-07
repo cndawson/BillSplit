@@ -81,7 +81,7 @@ tr:nth-child(even) {
 	height: 550px;
 	background: rgba(0,0,0,.20);
 	float:left;
-	text-align:center;
+	
 	padding-right: 20px;
 }
 
@@ -100,7 +100,7 @@ tr:nth-child(even) {
 
 #addPayment{
 	width: 45%;
-	height: 250px;
+	height: auto;
 	float:right;
 	background-color: lightblue;
 	padding:10px;
@@ -110,6 +110,7 @@ tr:nth-child(even) {
 	width:200px;
 	margin-left:10%;
 	margin-top:15px;
+	border-radius:100%;
 }
 
 #welcomeMessage{

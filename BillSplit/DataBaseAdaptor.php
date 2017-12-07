@@ -62,6 +62,24 @@
 				return FALSE;
 		}
 		
+		public function getPicture ($user){
+			$stmt = $this->DB->prepare("select profilePicture from users where username= :user");
+			$stmt->bindParam(':user', $user);
+			$stmt->execute ();
+			$aux = $stmt->fetchAll ( PDO::FETCH_ASSOC );
+			if(count($aux)>0)
+				return $aux[0]['profilePicture'];
+				return FALSE;
+		}
+		
+		public function insertPicture ($picture,$user){
+			$stmt = $this->DB->prepare("update users set profilePicture= :picture where username= :user");
+			$stmt->bindParam(':user', $user);
+			$stmt->bindParam(':picture', $picture);
+			$stmt->execute ();
+			return;
+		}
+		
 		public function isLeader ($user){
 			$stmt = $this->DB->prepare("select * from users where username= :user and leader=1");
 			$stmt->bindParam(':user', $user);
@@ -171,7 +189,7 @@
 					
 				$hash = password_hash($pswd, PASSWORD_DEFAULT);
 				echo password_verify($pswd, $hash) . PHP_EOL;
-				$stmt = $this->DB->prepare ( "Insert into users (username, hash, payed, groupName) VALUES (:user, :hash, 0.0, '')" );
+				$stmt = $this->DB->prepare ( "Insert into users (username, hash, payed, groupName,profilePicture) VALUES (:user, :hash, 0.0, '','default.png')" );
 				$stmt->bindParam(':hash', $hash);
 				$stmt->bindParam(':user', $user);
 				$stmt->execute ();
