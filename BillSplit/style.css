@@ -108,6 +108,7 @@ tr:nth-child(even) {
 
 .profilePicture{
 	width:200px;
+	height:200px;
 	margin-left:10%;
 	margin-top:15px;
 	border-radius:100%;
