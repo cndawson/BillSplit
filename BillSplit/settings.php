@@ -17,11 +17,12 @@ Author: Caylie Dawson & Christian Mancha
 		<a href="main.php"><button id="settingsButton" type="submit">Home</button></a>
 	</div>
 	<div id="centered">
-	Change Profile Picture<br>
-	<button id="edit" type="submit">Edit</button><br><br>
+	<!--  Change Profile Picture<br>
+	<button id="edit" class="buttonAdd" type="submit">Edit</button><br><br>
+	-->
 	Chose Payment Method
 
-	<form id="paymentMethod" action="controller.php" method="POST">
+	<form id="paymentMethod" class ="formPay" action="controller.php" method="POST">
   <input type="radio"  value="Credit" id="credit" name="paymentType"> Credit<br>
   <input type="radio"  value="Debit" id="debit" name="paymentType"> Debit<br>
   <input type="radio"  value="Paypal" id="paypal" name="paymentType"> Paypal<br>

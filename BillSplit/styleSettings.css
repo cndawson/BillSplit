@@ -52,5 +52,18 @@
     border-radius: 25px;
     color: white;
     width: 300px;
-    height: 150px;
+    height: 130px;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.buttonAdd{
+	background-color:transparent;
+	border: solid black 2px;
+	border-radius:5px;
+	font-family:'Segoe UI';
+	color:black;
+	font-size:12pt;
+	cursor:pointer;
+	margin:10px;
+	font-family: Arial, Helvetica, sans-serif;
 }

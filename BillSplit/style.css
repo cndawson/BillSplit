@@ -19,6 +19,7 @@
 }
 .fields{
 margin: 10px;
+width:80%;
 }
 .fieldA{
 margin: 10px;
@@ -28,12 +29,13 @@ width:60px;
 table, td, th {
   border: 1px solid grey;
   padding: 5px;
-  font-family: 'Segoe UI';
+  font-family: Arial, Helvetica, sans-serif;
 } 
 
 table {
   border-collapse: collapse;
   width:100%;
+  font-family: Arial, Helvetica, sans-serif;
 }
 
 tr:nth-child(even) {
@@ -77,17 +79,19 @@ tr:nth-child(even) {
 }
 
 #left{
-	width: 35%;
-	height: 550px;
+	width: 290px;
+	height: 600px;
 	background: rgba(0,0,0,.20);
 	float:left;
 	text-align:center;
 	padding-right: 20px;
+	font-family: Arial, Helvetica, sans-serif;
 }
 
 #right{
 	width: 60%;
-	float:right;
+	float:left;
+	margin-left: 20px;
 }
 
 #people{
@@ -104,6 +108,7 @@ tr:nth-child(even) {
 	float:right;
 	background-color: lightblue;
 	padding:10px;
+	font-family: Arial, Helvetica, sans-serif;
 }
 
 .profilePicture{
@@ -114,11 +119,11 @@ tr:nth-child(even) {
 
 #welcomeMessage{
 	margin-left:10%;
-	font-family:'Segoe UI'
+	font-family: Arial, Helvetica, sans-serif;
 }
 
 .font{
-	font-family:'Segoe UI';
+	font-family: Arial, Helvetica, sans-serif;
 }
 
 #personalInfo{
@@ -135,6 +140,7 @@ tr:nth-child(even) {
 	font-size:12pt;
 	cursor:pointer;
 	margin:10px;
+	font-family: Arial, Helvetica, sans-serif;
 }
 
 #invisible{

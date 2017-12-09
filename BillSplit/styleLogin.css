@@ -1,6 +1,5 @@
 body {
-	background-image: url("white.jpg");
-
+	background-image: url("images/2.jpg");
 }
 
 #logo{
@@ -10,14 +9,14 @@ body {
 }
 
 .font{
-	font-family:'Segoe UI';
+	font-family: Arial, Helvetica, sans-serif;
 }
 
 .buttonLogin{
 	background-color:transparent;
 	border: solid white 2px;
 	border-radius:5px;
-	font-family:'Segoe UI';
+	font-family: Arial, Helvetica, sans-serif;
 	color:white;
 	font-size:12pt;
 	cursor: pointer;
@@ -29,12 +28,13 @@ form {
 	padding: 5px;
 	margin: 10px;
 	float: left;
+	font-family: Arial, Helvetica, sans-serif;
 }
 
 .fields { 
 grid-column: 2 / 2; 
 height-line: 15px; 
-font-family: 'Segoe UI'; 
+font-family: Arial, Helvetica, sans-serif; 
 font-size: 10pt;
 margin-bottom:5px;
 }
@@ -51,4 +51,5 @@ margin-bottom:5px;
     backdrop-filter:blur(60px);
     border-radius: 25px;
     color: white;
+    font-family: Arial, Helvetica, sans-serif;
 }
