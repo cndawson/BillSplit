@@ -27,7 +27,14 @@ Author: Caylie Dawson & Christian Mancha
 	<br>
 	<div id="left">
 		<!-- Profile section -->
-		<img class="profilePicture" src="images/krabby.gif"/>
+		<?php
+		if (isset ( $_SESSION ['picture'] )){
+		echo "<img class=\"profilePicture\" src=\"images/profile/". $_SESSION['picture']."\"/>";
+		}
+		else{
+			echo "<img class=\"profilePicture\" src=\"images/profile/default.png\"/>";
+		}
+		?>
 		<br>
 		<h1 id="welcomeMessage">Hello <?php echo $_SESSION ['user']?>!</h1> 
 		<hr>

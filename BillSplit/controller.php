@@ -23,10 +23,14 @@ if (isset ( $_POST ['IDL'] ) && isset ( $_POST ['passwordL'] )) {
 		if($memberOfGroup!=FALSE)
 			$_SESSION['group'] = $memberOfGroup;
 		
-			$paymentType = $theDBA->getType($auxIDL);
+		$paymentType = $theDBA->getType($auxIDL);
 			if($paymentType!=FALSE)
 				$_SESSION['paymentMethod'] = $paymentType;
 			
+		$pictureName = $theDBA->getPicture($auxIDL);
+			if($pictureName!=FALSE)
+				$_SESSION['picture'] = $pictureName;
+				
 		$leader = $theDBA->isLeader($auxIDL);
 		if($leader==TRUE)
 			$_SESSION['leader'] = "1";
@@ -121,6 +125,15 @@ if(isset($_POST['paymentType'])){
 	$theDBA->paymentMethod($_POST['paymentType'],( $_SESSION ['user']) );
 	$_SESSION ['paymentMethod'] = $_POST ['paymentType'];
 	header('Location: main.php');
+}
+if(isset($_FILES['photo']['name'])){
+	$folder = "images/profile/";
+	opendir($folder);
+	$destination = $folder . $_FILES['photo']['name'];
+	copy($_FILES['photo']['tmp_name'], $destination);	
+	$theDBA->insertPicture($_FILES['photo']['name'], $_SESSION ['user'] );
+	$_SESSION ['picture'] = $_FILES['photo']['name'];
+	header('Location: settings.php');
 }
 if (isset ( $_POST ['logout'] )) {
 	session_destroy ();
